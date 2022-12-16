@@ -5,39 +5,7 @@
 [Rule]
 
 #广告联盟，去开屏广告
-DOMAIN-SUFFIX,sdkapp.uve.weibo.com,REJECT-TINYGIF
-DOMAIN,adstrategy.biz.weibo.com,REJECT-TINYGIF
-DOMAIN-SUFFIX,e.qq.com,REJECT-TINYGIF
-DOMAIN-SUFFIX,gdt.qq.com,REJECT-TINYGIF
-DOMAIN-SUFFIX,l.qq.com,REJECT-TINYGIF
-DOMAIN,adsmind.gdtimg.com,REJECT-TINYGIF
-DOMAIN,adsmind.ugdtimg.com,REJECT-TINYGIF
-DOMAIN,livep.l.t002.ottcn.com,REJECT-TINYGIF
-DOMAIN,pgdt.ugdtimg.com,REJECT-TINYGIF
-DOMAIN,splashqqlive.gtimg.com,REJECT-TINYGIF
-DOMAIN,wa.gtimg.com,REJECT-TINYGIF
-
-DOMAIN,ulogs.umengcloud.com,REJECT-TINYGIF
-DOMAIN,ulogs.umeng.com,REJECT-TINYGIF
-DOMAIN,sdk.e.qq.com,REJECT-TINYGIF
-DOMAIN,mi.gdt.qq.com,REJECT-TINYGIF
-DOMAIN,open.e.kuaishou.com,REJECT-TINYGIF
-DOMAIN,api-access.pangolin-sdk-toutiao.com,REJECT-TINYGIF
-DOMAIN,sdk.open.talk.getui.net,REJECT-TINYGIF
-DOMAIN,sdk.open.talk.getui.com,REJECT-TINYGIF
-DOMAIN,errlog.umeng.com,REJECT-TINYGIF
-DOMAIN,tnc3-aliec2.snssdk.com,REJECT-TINYGIF
-DOMAIN,sf3-fe-tos.pglstatp-toutiao.com,REJECT-TINYGIF
-DOMAIN,qzs.gdtimg.com,REJECT-TINYGIF
-
-DOMAIN-SUFFIX,alitui.weibo.com,REJECT-TINYGIF
-DOMAIN-SUFFIX,beacon.sina.com.cn,REJECT-TINYGIF
-DOMAIN,adimg.uve.weibo.com,REJECT-TINYGIF
-DOMAIN,adimg.vue.weibo.com,REJECT-TINYGIF
-DOMAIN,u1.img.mobile.sina.cn,REJECT-TINYGIF
-DOMAIN,sax.sina.com.cn,REJECT-TINYGIF
-DOMAIN,saxs.sina.com.cn,REJECT-TINYGIF
-DOMAIN,saxn.sina.com.cn,REJECT-TINYGIF
+RULE-SET,https://raw.githubusercontent.com/chengkongyiban/myself-rule-set/main/WeiboLiteAds.list,REJECT-TINYGIF
 
 [Script]
 
