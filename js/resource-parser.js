@@ -1,6 +1,7 @@
 /*
+原作者@小白脸
 [Script]
-QX转换 = type=http-request,pattern=qx$,requires-body=1,max-size=0,script-path=Script/QX转换.js
+QX转换 = type=http-request,pattern=qx$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chengkongyiban/Surge/main/js/resource-parser.js
 
 [MITM]
 hostname = %APPEND% github.com:443, raw.githubusercontent.com:443
