@@ -2,7 +2,7 @@
 原作者@小白脸
 使用方法 在链接末尾加上qx
 [Script]
-QX转换 = type=http-request,pattern=qx$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chengkongyiban/Surge/main/js/resource-parser.js
+QX转换 = type=http-request,pattern=qx$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chengkongyiban/Surge/main/js/QX_to_Surge.js
 
 [MITM]
 hostname = %APPEND% github.com:443, raw.githubusercontent.com:443
