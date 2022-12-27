@@ -1,3 +1,11 @@
+/*
+[Script]
+QX转换 = type=http-request,pattern=qx$,requires-body=1,max-size=0,script-path=Script/QX转换.js
+
+[MITM]
+hostname = %APPEND% github.com:443, raw.githubusercontent.com:443
+*/
+
 let req = $request.url.replace(/qx$/,'')
 let name = '#!name= ' + req.match(/.+\/(.+)\.conf/)[1];
 !(async () => {
