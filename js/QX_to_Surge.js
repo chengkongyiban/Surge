@@ -129,7 +129,7 @@ ${URLRewrite}
 ${HeaderRewrite}
 ${script}
 ${MapLocal}
-${MITM}`.replace(/\;/g,'#').replace(/\n{2,}/g,'\n\n').replace(/\x20{2,}/g,'\x20').replace(/http-analyze/g,'http-request')
+${MITM}`.replace(/\;/g,'#').replace(/\n{2,}/g,'\n\n').replace(/\x20{2,}/g,'\x20').replace(/http-analyze/g,'http-request').replace(/(.+)pattern=(.+\{.+,.*?\}.*?),(.+)/g,'$1pattern="$2",$3')
 
 
 
