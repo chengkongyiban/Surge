@@ -2,7 +2,7 @@
 #!desc=去除 keep 广告
 
 [Rule]
-URL-REGEX,^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v1\/ad,REJECT
+URL-REGEX,^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v1\/ad,DIRECT
 URL-REGEX,^https:\/\/api\.gotokeep\.com\/training\/box\/config,REJECT
 URL-REGEX,^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v1\/ad\/preload$,REJECT
 URL-REGEX,^https:\/\/api\.gotokeep\.com\/anno\/v1\/upgrade\/check$,REJECT
