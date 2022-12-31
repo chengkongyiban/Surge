@@ -44,7 +44,9 @@ body.forEach((x, y, z) => {
 			case "enabled=":
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
 				
-				let cronExp = x.split(" http")[0].replace(/(#|;|\/\/)/,'');
+				x = x.replace(/^(#|;|\/\/)/gi,'')
+				
+				let cronExp = x.split(" http")[0];
 				
 				let cronJs = x.split("//")[1].split(",")[0].replace(/(.+)/,'https://$1');
 				
