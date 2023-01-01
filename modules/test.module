@@ -3,9 +3,9 @@
 
 [Rule]
 URL-REGEX,^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v1\/ad,DIRECT
-URL-REGEX,^https:\/\/api\.gotokeep\.com\/training\/box\/config,REJECT
-URL-REGEX,^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v1\/ad\/preload$,REJECT
-URL-REGEX,^https:\/\/api\.gotokeep\.com\/anno\/v1\/upgrade\/check$,REJECT
+URL-REGEX,^https:\/\/api\.gotokeep\.com\/training\/box\/config,REJECT-ARRAY
+URL-REGEX,^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v1\/ad\/preload$,REJECT-DICT
+URL-REGEX,^https:\/\/api\.gotokeep\.com\/anno\/v1\/upgrade\/check$,REJECT-TINYGIF
 
 [Script]
 KeepMy = type=http-response,pattern=https:\/\/api\.gotokeep\.com\/athena\/v5\/people\/my,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Maasea/surgeModule/master/Script/Keep/my.js
