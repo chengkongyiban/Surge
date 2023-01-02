@@ -7,12 +7,9 @@ QX转换 = type=http-request,pattern=qx$,requires-body=1,max-size=0,script-path=
 [MITM]
 hostname = %APPEND% github.com:443, raw.githubusercontent.com:443
 */
-
-
-
-
 let req = $request.url.replace(/qx$/,'')
 let name = '#!name= ' + req.match(/.+\/(.+)\.(conf|js|snippet|txt)/)?.[1] || '无名';
+let desc = '#!desc= ' + req.match(/.+\/(.+)\.(conf|js|snippet|txt)/)?.[1] || '无名';
 !(async () => {
   let body = await http(req);
 
@@ -25,12 +22,13 @@ let MapLocal = [];
 let MITM = "";
 
 body.forEach((x, y, z) => {
+	x = x.replace(/^(#|;|\/\/)/gi,'#');
 	let type = x.match(
 		/\x20script-|enabled=|url\x20reject|echo-response|\-header|^hostname|url\x20(302|307)|\x20(request|response)-body/
 	)?.[0];
 	//判断注释
 	
-	if (x.match(/^[^#;/]/)){
+	if (x.match(/^[^#]/)){
 	var noteK = "";
 	}else{
 	var noteK = "#";
@@ -39,9 +37,8 @@ body.forEach((x, y, z) => {
 	if (type) {
 		switch (type) {
 			case "\x20script-":
-			if (x.match('script-echo-response')) {throw '脚本不支持通用'}
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
-				let sctype = x.match('-response') ? 'response' : 'request';
+				let sctype = x.match('script-response') ? 'response' : 'request';
 				
 				let rebody = x.match('-body|-analyze') ? ',requires-body=1' : '';
 				
@@ -49,7 +46,7 @@ body.forEach((x, y, z) => {
 				
 				let proto = x.match('proto.js') ? ',binary-body-mode=1' : '';
 				
-				let ptn = x.split(" ")[0].replace(/^(#|;|\/\/)/,'');
+				let ptn = x.split(" ")[0].replace(/^#/,'');
 				
 				let js = x.split(" ")[3];
 				
@@ -65,7 +62,7 @@ body.forEach((x, y, z) => {
 			case "enabled=":
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
 				
-				let cronExp = x.split(" http")[0].replace(/(#|;|\/\/)/,'');
+				let cronExp = x.split(" http")[0].replace(/#/,'');
 				
 				let cronJs = x.split("://")[1].split(",")[0].replace(/(.+)/,'https://$1');
 				
@@ -94,10 +91,6 @@ body.forEach((x, y, z) => {
 					MapLocal.push(`${url} data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-img.gif"`);
 					break;
 				}
-
-				z[y - 1]?.match("#") && URLRewrite.push(z[y - 1]);
-				URLRewrite.push(x.replace(/(\^?http[^\s]+).+/, "$1 - reject"));
-				break;
 
 			case "-header":
 			if (x.match(/\(\\r\\n\)/g).length === 2){			
@@ -129,7 +122,7 @@ let op = x.match(/\x20response-header/) ?
 			default:
 				if (type.match("url ")) {
 					z[y - 1]?.match("#") && URLRewrite.push(z[y - 1]);
-					URLRewrite.push(x.replace(/(#|;|\/\/)?(.*?)\x20url\x20(302|307)\s(.+)/, `${noteK}$2 $4 $3`));
+					URLRewrite.push(x.replace(/(#)?(.*?)\x20url\x20(302|307)\s(.+)/, `${noteK}$2 $4 $3`));
 				} else {
 					z[y - 1]?.match("#") && script.push(z[y - 1]);
 					script.push(
@@ -152,16 +145,21 @@ HeaderRewrite = (HeaderRewrite[0] || '') && `[Header Rewrite]\n${HeaderRewrite.j
 MapLocal = (MapLocal[0] || '') && `[MapLocal]\n${MapLocal.join("\n")}`;
 
 body = `${name}
+${desc}
 
 ${URLRewrite}
+
 ${HeaderRewrite}
+
 ${script}
+
 ${MapLocal}
+
 ${MITM}`.replace(/\n{2,}/g,'\n\n').replace(/\x20{2,}/g,'\x20')
 
 
 
- $done({ response: { status: 200 ,body:body } });
+ $done({ response: { status: 200 ,body:body ,headers: {'Content-Type': 'text/plain; charset=utf-8'} } });
 
 })()
 .catch((e) => {
