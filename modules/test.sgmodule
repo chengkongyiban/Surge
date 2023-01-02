@@ -17,7 +17,7 @@ URL-REGEX,^https?:\/\/www\.zhihu\.com\/appview\/(p|v2\/answer|zvideo)\/.*entry=(
 USER-AGENT,AVOS*,REJECT
 
 
-[URL Rewrite]
+[Url Rewrite]
 "^https?:\/\/api\.zhihu\.com\/explore\/entry\/tips" - reject
 "^https?:\/\/haojia\.m\.smzdm\.com\/detail_modul\/other_modul" - reject
 "^https?:\/\/haojia\.m\.smzdm\.com\/detail_modul\/user_related_modul" - reject
