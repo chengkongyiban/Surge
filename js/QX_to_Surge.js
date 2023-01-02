@@ -8,6 +8,9 @@ QX转换 = type=http-request,pattern=qx$,requires-body=1,max-size=0,script-path=
 hostname = %APPEND% github.com:443, raw.githubusercontent.com:443
 */
 
+
+
+
 let req = $request.url.replace(/qx$/,'')
 let name = '#!name= ' + req.match(/.+\/(.+)\.(conf|js|snippet|txt)/)?.[1] || '无名';
 !(async () => {
@@ -23,20 +26,38 @@ let MITM = "";
 
 body.forEach((x, y, z) => {
 	let type = x.match(
-		/script-|enabled=|reject|echo-response|\-header|hostname|url\x20(302|307)|\x20(request|response)-body/
+		/\x20script-|enabled=|url\x20reject|echo-response|\-header|^hostname|url\x20(302|307)|\x20(request|response)-body/
 	)?.[0];
+	//判断注释
+	
+	if (x.match(/^[^#;/]/)){
+	var noteK = "";
+	}else{
+	var noteK = "#";
+	};
+	
 	if (type) {
 		switch (type) {
-			case "script-":
+			case "\x20script-":
 			if (x.match('script-echo-response')) {throw '脚本不支持通用'}
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
+				let sctype = x.match('-response') ? 'response' : 'request';
+				
+				let rebody = x.match('-body|-analyze') ? ',requires-body=1' : '';
+				
+				let size = x.match('-body|-analyze') ? ',max-size=3145728' : '';
+				
 				let proto = x.match('proto.js') ? ',binary-body-mode=1' : '';
-				let rebody = x.match('script-(request|response)-body') ? ',requires-body=1,max-size=3145728' : '';
-				let analyze = x.match('analyze-echo') ? ',requires-body=1,max-size=3145728' : '';
+				
+				let ptn = x.split(" ")[0].replace(/^(#|;|\/\/)/,'');
+				
+				let js = x.split(" ")[3];
+				
+				let scname = js.substring(js.lastIndexOf('/') + 1, js.lastIndexOf('.') );
 				script.push(
 					x.replace(
-						/(\^?http[^\s]+)\x20url\x20script-(response|request|analyze)[^\s]+\x20(http.+\/(.+)\.js)/,
-						`$4 = type=http-$2,pattern=$1${rebody}${proto}${analyze},script-path=$3,script-update-interval=0`,
+						/.+script-.+/,
+						`${noteK}${scname} = type=http-${sctype},pattern=${ptn}${rebody}${size}${proto},script-path=${js},script-update-interval=0`,
 					),
 				);
 				break;
@@ -44,23 +65,21 @@ body.forEach((x, y, z) => {
 			case "enabled=":
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
 				
-				x = x.replace(/^(#|;|\/\/)/gi,'')
+				let cronExp = x.split(" http")[0].replace(/(#|;|\/\/)/,'');
 				
-				let cronExp = x.split(" http")[0];
-				
-				let cronJs = x.split("//")[1].split(",")[0].replace(/(.+)/,'https://$1');
+				let cronJs = x.split("://")[1].split(",")[0].replace(/(.+)/,'https://$1');
 				
 				let croName = x.split("tag=")[1].split(",")[0];
 				
 				script.push(
 					x.replace(
 						/.+enabled=.+/,
-						`${croName} = type=cron,script-path=${cronJs},timeout=60,cronexp=${cronExp},wake-system=1`,
+						`${noteK}${croName} = type=cron,script-path=${cronJs},timeout=60,cronexp=${cronExp},wake-system=1`,
 					),
 				);
 				break;
 
-			case "reject":
+			case "url\x20reject":
 				let jct = x.match(/reject?[^\s]+/)[0];
 				let url = x.match(/\^?http[^\s]+/)?.[0];
 
@@ -110,7 +129,7 @@ let op = x.match(/\x20response-header/) ?
 			default:
 				if (type.match("url ")) {
 					z[y - 1]?.match("#") && URLRewrite.push(z[y - 1]);
-					URLRewrite.push(x.replace(/(.*?)\x20url\x20(302|307)\s(.+)/, "$1 $3 $2"));
+					URLRewrite.push(x.replace(/(#|;|\/\/)?(.*?)\x20url\x20(302|307)\s(.+)/, `${noteK}$2 $4 $3`));
 				} else {
 					z[y - 1]?.match("#") && script.push(z[y - 1]);
 					script.push(
@@ -138,7 +157,7 @@ ${URLRewrite}
 ${HeaderRewrite}
 ${script}
 ${MapLocal}
-${MITM}`.replace(/\;/g,'#').replace(/\n{2,}/g,'\n\n').replace(/\x20{2,}/g,'\x20').replace(/http-analyze/g,'http-request').replace(/(.+)pattern=(.+\{.+,.*?\}.*?),(.+)/g,'$1pattern="$2",$3')
+${MITM}`.replace(/\n{2,}/g,'\n\n').replace(/\x20{2,}/g,'\x20')
 
 
 
