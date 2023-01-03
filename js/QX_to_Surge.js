@@ -24,7 +24,7 @@ let MITM = "";
 body.forEach((x, y, z) => {
 	x = x.replace(/^(#|;|\/\/)/gi,'#');
 	let type = x.match(
-		/\x20script-|enabled=|url\x20reject|echo-response|\-header|^hostname|url\x20(302|307)|\x20(request|response)-body/
+		/\x20script-|enabled=|\x20url\x20reject$|url\x20reject-|echo-response|\-header|^hostname|url\x20(302|307)|\x20(request|response)-body/
 	)?.[0];
 	//判断注释
 	
@@ -78,21 +78,27 @@ body.forEach((x, y, z) => {
 				);
 				break;
 
-			case "url\x20reject":
-				let jct = x.match(/reject?[^\s]+/)[0];
-				let url = x.match(/\^?http[^\s]+/)?.[0];
+			case "url\x20reject-":
 
-				if (jct === "reject-200") {
-					z[y - 1]?.match("#") && MapLocal.push(z[y - 1]);
-					MapLocal.push(`${url} data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-200.txt"`);
-					break;
-				}
+				z[y - 1]?.match("#") && MapLocal.push(z[y - 1]);
+				
+				let dict2Mock = x.match('dict') ? '"https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"' : '';
+				
+				let array2Mock = x.match('array') ? '"https://raw.githubusercontent.com/mieqq/mieqq/master/reject-array.json"' : '';
+				
+				let two002Mock = x.match('200') ? '"https://raw.githubusercontent.com/mieqq/mieqq/master/reject-200.txt"' : '';
+				
+				let img2Mock = x.match('img') ? '"https://raw.githubusercontent.com/mieqq/mieqq/master/reject-img.gif"' : '';
+				
+				MapLocal.push(x.replace(/(#)?(.+?)\x20url\x20reject-.+/, `${noteK}$2 data=${dict2Mock}${array2Mock}${two002Mock}${img2Mock}`));
+				break;
 
-				if (jct === "reject-img") {
-					z[y - 1]?.match("#") && MapLocal.push(z[y - 1]);
-					MapLocal.push(`${url} data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-img.gif"`);
-					break;
-				}
+			case "\x20url\x20reject":
+
+				z[y - 1]?.match("#") && URLRewrite.push(z[y - 1]);
+				
+				URLRewrite.push(x.replace(/(#)?(.+?)\x20url\x20reject$/, `${noteK}$2 - reject`));
+				break;
 
 			case "-header":
 			if (x.match(/\(\\r\\n\)/g).length === 2){			
@@ -144,7 +150,7 @@ URLRewrite = (URLRewrite[0] || '') && `[URL Rewrite]\n${URLRewrite.join("\n")}`;
 
 HeaderRewrite = (HeaderRewrite[0] || '') && `[Header Rewrite]\n${HeaderRewrite.join("\n")}`;
 
-MapLocal = (MapLocal[0] || '') && `[MapLocal]\n${MapLocal.join("\n")}`;
+MapLocal = (MapLocal[0] || '') && `[Map Local]\n${MapLocal.join("\n")}`;
 
 body = `${name}
 ${desc}
