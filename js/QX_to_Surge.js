@@ -1,8 +1,8 @@
 /*
 原作者@小白脸
-使用方法 在链接末尾加上qx
+使用方法 在qx重写链接末尾加上qx
 [Script]
-QX转换 = type=http-request,pattern=qx$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chengkongyiban/Surge/main/js/QX_to_Surge.js
+QX转换 = type=http-request,pattern=qx$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chengkongyiban/shadowrocket/main/scripts/QX_to_Shadowrocket.js
 
 [MITM]
 hostname = %APPEND% github.com:443, raw.githubusercontent.com:443
@@ -46,9 +46,11 @@ body.forEach((x, y, z) => {
 				
 				let proto = x.match('proto.js') ? ',binary-body-mode=1' : '';
 				
-				let ptn = x.split(" ")[0].replace(/^#/,'');
+				let urlInNum = x.split(" ").indexOf("url");
 				
-				let js = x.split(" ")[3];
+				let ptn = x.split(" ")[urlInNum - 1].replace(/#/,"");
+				
+				let js = x.split(" ")[urlInNum + 2];
 				
 				let scname = js.substring(js.lastIndexOf('/') + 1, js.lastIndexOf('.') );
 				script.push(
