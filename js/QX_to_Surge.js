@@ -125,7 +125,7 @@ let op = x.match(/\x20response-header/) ?
 				MapLocal.push(x.replace(/(\^?http[^\s]+).+(http.+)/, '$1 data="$2"'));
 				break;
 			case "hostname":
-				MITM = x.replace(/hostname\x20?=(.*)/, `[MITM]\nhostname = %APPEND% $1`);
+				MITM = x.replace(/hostname\x20?=(.*)/, `[MITM]\n\nhostname = %APPEND% $1`);
 				break;
 			default:
 				if (type.match("url ")) {
@@ -144,13 +144,13 @@ let op = x.match(/\x20response-header/) ?
 	}
 }); //循环结束
 
-script = (script[0] || '') && `[Script]\n${script.join("\n")}`;
+script = (script[0] || '') && `[Script]\n\n${script.join("\n\n")}`;
 
-URLRewrite = (URLRewrite[0] || '') && `[URL Rewrite]\n${URLRewrite.join("\n")}`;
+URLRewrite = (URLRewrite[0] || '') && `[URL Rewrite]\n\n${URLRewrite.join("\n")}`;
 
-HeaderRewrite = (HeaderRewrite[0] || '') && `[Header Rewrite]\n${HeaderRewrite.join("\n")}`;
+HeaderRewrite = (HeaderRewrite[0] || '') && `[Header Rewrite]\n\n${HeaderRewrite.join("\n")}`;
 
-MapLocal = (MapLocal[0] || '') && `[Map Local]\n${MapLocal.join("\n")}`;
+MapLocal = (MapLocal[0] || '') && `[Map Local]\n\n${MapLocal.join("\n\n")}`;
 
 body = `${name}
 ${desc}
@@ -163,7 +163,12 @@ ${script}
 
 ${MapLocal}
 
-${MITM}`.replace(/\n{2,}/g,'\n\n').replace(/\x20{2,}/g,'\x20')
+${MITM}`
+		.replace(/(#.+\n)\n/g,'$1')
+		.replace(/t&zd;/g,',')
+		.replace(/\n{2,}/g,'\n\n')
+		.replace(/"{2,}/g,'"')
+		.replace(/\x20{2,}/g,' ')
 
 
 
