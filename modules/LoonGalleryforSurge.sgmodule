@@ -3,7 +3,6 @@
 #!author=@Peng-YM @小白脸 @chengkongyiban
 #!说明：打开商店后找到想要的插件，点左边插件的头像会自动转换为Surge支持的模块，复制链接添加到Surge模块即可
 
-
 [Script]
 
 Loon-Gallery = type=http-request,pattern=https?:\/\/xn--ck8h\.com,script-path=https://raw.githubusercontent.com/Peng-YM/Loon-Gallery/master/backend/gallery.js, requires-body=true, timeout=120
