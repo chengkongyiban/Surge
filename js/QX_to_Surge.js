@@ -24,7 +24,7 @@ let MITM = "";
 body.forEach((x, y, z) => {
 	x = x.replace(/^(#|;|\/\/)/gi,'#');
 	let type = x.match(
-		/\x20script-|enabled=|\x20url\x20reject$|url\x20reject-|echo-response|\-header|^hostname|url\x20(302|307)|\x20(request|response)-body/
+		/\x20url\x20script-|enabled=|\x20url\x20reject$|url\x20reject-|\x20echo-response|\-header|^hostname|url\x20(302|307)|\x20(request|response)-body/
 	)?.[0];
 	//判断注释
 	
@@ -36,7 +36,7 @@ body.forEach((x, y, z) => {
 	
 	if (type) {
 		switch (type) {
-			case "\x20script-":
+			case " url script-":
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
 				let sctype = x.match('script-response') ? 'response' : 'request';
 				
@@ -78,7 +78,7 @@ body.forEach((x, y, z) => {
 				);
 				break;
 
-			case "url\x20reject-":
+			case "url reject-":
 
 				z[y - 1]?.match("#") && MapLocal.push(z[y - 1]);
 				
@@ -93,7 +93,7 @@ body.forEach((x, y, z) => {
 				MapLocal.push(x.replace(/(#)?(.+?)\x20url\x20reject-.+/, `${noteK}$2 data=${dict2Mock}${array2Mock}${two002Mock}${img2Mock}`));
 				break;
 
-			case "\x20url\x20reject":
+			case " url reject":
 
 				z[y - 1]?.match("#") && URLRewrite.push(z[y - 1]);
 				
@@ -120,7 +120,7 @@ let op = x.match(/\x20response-header/) ?
 				}
 				break;
 
-			case "echo-response":
+			case " echo-response":
 				z[y - 1]?.match("#") && MapLocal.push(z[y - 1]);
 				MapLocal.push(x.replace(/(\^?http[^\s]+).+(http.+)/, '$1 data="$2"'));
 				break;
@@ -146,6 +146,8 @@ let op = x.match(/\x20response-header/) ?
 
 script = (script[0] || '') && `[Script]\n\n${script.join("\n\n")}`;
 
+script = script.replace(/(.+)pattern=(.+\{.*?,.*?\}.*?),(.+)/gi,'$1pattern="$2",$3')
+
 URLRewrite = (URLRewrite[0] || '') && `[URL Rewrite]\n\n${URLRewrite.join("\n")}`;
 
 HeaderRewrite = (HeaderRewrite[0] || '') && `[Header Rewrite]\n\n${HeaderRewrite.join("\n")}`;
@@ -166,9 +168,9 @@ ${MapLocal}
 ${MITM}`
 		.replace(/(#.+\n)\n/g,'$1')
 		.replace(/t&zd;/g,',')
-		.replace(/\n{2,}/g,'\n\n')
 		.replace(/"{2,}/g,'"')
 		.replace(/\x20{2,}/g,' ')
+		.replace(/\n{2,}/g,'\n\n')
 
 
 
