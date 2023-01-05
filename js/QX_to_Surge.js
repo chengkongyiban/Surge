@@ -29,8 +29,8 @@ if (urlArg === ""){
 		desc = name;
 	}
 };
-name = "#!name= " + decodeURIComponent(name);
-desc = "#!desc= " + decodeURIComponent(desc);
+name = "#!name=" + decodeURIComponent(name);
+desc = "#!desc=" + decodeURIComponent(desc);
 
 !(async () => {
   let body = await http(req);
@@ -46,7 +46,7 @@ let MITM = "";
 body.forEach((x, y, z) => {
 	x = x.replace(/^(#|;|\/\/)/gi,'#');
 	let type = x.match(
-		/\x20url\x20script-|enabled=|\x20url\x20reject$|url\x20reject-|\x20echo-response|\-header|hostname|url\x20(302|307)|\x20(request|response)-body/
+		/\x20url\x20script-|enabled=|\x20url\x20reject$|url\x20reject-|\x20echo-response|\-header|^hostname|url\x20(302|307)|\x20(request|response)-body/
 	)?.[0];
 	//判断注释
 	
