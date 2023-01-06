@@ -52,12 +52,11 @@ body.forEach((x, y, z) => {
 				
 				MapLocal.push(x.replace(/(#)?(.+?)\x20-\x20reject-.+/, `$1$2 data=${dict2Mock}${array2Mock}${two002Mock}${img2Mock}`));
 		
-	}else{if(x.match(/^(DOMAIN|USER-AGENT|URL-REGEX|IP-CIDR|GEOIP|IP-ASN)[^,]*?,[^,]+$/)){
-		x.replace(/.+/,"")
-		
-	}else{
+	}else{if (x.match(/^(DOM|U|IP|GEO)[^,]+,[^,]+,.+/)){
 		plugin.push(x)
-	}
+	}else{
+	plugin.push(x.replace(/^(DOM|USER|URL|IP|GEO)[^,]+,[^,]+[^,]$/,""))
+	};
 		
 	};
 		
@@ -77,7 +76,6 @@ ${MapLocal}`
 		.replace(/\[Rule\]/gi,'\n[Rule]\n')
 		.replace(/\[General\]/gi,'\n[General]\n')
 		.replace(/(.+)\x20(302|307)\x20(.+)/gi,"$1 $3 $2")
-		.replace(/(DOMAIN|U|IP|GEOIP)[^,\s]+,[^,\s]+/g,"")
 		.replace(/hostname\x20?=\x20?(.+)/gi,"hostname = %APPEND% $1")
 		.replace(/skip-proxy\x20?=\x20?(.+)/gi,"skip-proxy = %APPEND% $1")
 		.replace(/bypass-tun\x20?=\x20?(.+)/gi,"tun-excluded-routes = %APPEND% $1")
