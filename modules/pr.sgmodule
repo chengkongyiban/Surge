@@ -1,5 +1,6 @@
 #!name=允许访问私有库
 #!desc=需自行替换用户名，和token，token获取方法请谷歌
+#!author=@xream
 
 [Header Rewrite]
 
