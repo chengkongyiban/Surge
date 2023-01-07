@@ -1,9 +1,9 @@
-#!name=pr
-#!desc=pr
+#!name=允许访问私有库
+#!desc=需自行替换用户名，和token，token获取方法请谷歌
 
-[URL Rewrite]
+[Header Rewrite]
 
-http-request ^https?:\/\/(raw|gist)\.githubusercontent\.com/你的用户名/ header-add Authorization token 你的token
+http-request ^https?:\/\/(raw|gist)\.githubusercontent\.com/你的用户名/ header-add Authorization "token 你的token"
 
 [MITM]
 
