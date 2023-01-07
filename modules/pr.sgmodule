@@ -7,4 +7,4 @@
 
 [MITM]
 
-hostname = raw.githubusercontent.com,gist.githubusercontent.com
+hostname = %APPEND% raw.githubusercontent.com,gist.githubusercontent.com
