@@ -3,7 +3,7 @@
 
 [URL Rewrite]
 
-^https?:\/\/(raw|gist)\.githubusercontent\.com/你的用户名/ header-add Authorization token 你的token
+htte-request ^https?:\/\/(raw|gist)\.githubusercontent\.com/你的用户名/ header-add Authorization token 你的token
 
 [MITM]
 
