@@ -41,8 +41,8 @@ let MapLocal = [];
 //let MITM = [];
 
 body.forEach((x, y, z) => {
-	x = x.replace(/^(#|;|\/\/)/,"#")
-	if (x.match(/\x20(_|-)\x20reject-/)){
+	x = x.replace(/^(#|;|\/\/)/,"#").replace(" _ reject"," - reject")
+	if (x.match(/\x20-\x20reject-/)){
 
 				z[y - 1]?.match("#") && MapLocal.push(z[y - 1]);
 				
@@ -64,9 +64,6 @@ body.forEach((x, y, z) => {
 		
 	};
 		
-
-	
-	
 }); //循环结束
 
 plugin = (plugin[0] || '') && `${plugin.join("\n\n")}`;
