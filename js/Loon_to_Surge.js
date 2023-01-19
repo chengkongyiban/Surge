@@ -48,7 +48,7 @@ let MapLocal = [];
 //let MITM = [];
 
 body.forEach((x, y, z) => {
-	x = x.replace(/^(#|;|\/\/)/,"#").replace(" _ reject"," - reject")
+	x = x.replace(/^(#|;|\/\/)/,"#").replace(" _ reject"," - reject").replace(/(\{.*?)\,(.*?\})/gi,'$1t&zd;$2');
 	if (x.match(/\x20-\x20reject-/)){
 
 				z[y - 1]?.match("#") && MapLocal.push(z[y - 1]);
@@ -78,6 +78,7 @@ MapLocal = (MapLocal[0] || '') && `\n\n[Map Local]\n\n${MapLocal.join("\n\n")}`;
 
 body = `${plugin}
 ${MapLocal}`
+		.replace(/t&zd;/g,',')
 		.replace(/\[Rewrite\]/gi,'\n[URL Rewrite]\n')
 		.replace(/\[MITM\]/gi,'\n[MITM]\n')
 		.replace(/\[Script\]/gi,'\n[Script]\n')
