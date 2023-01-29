@@ -155,34 +155,18 @@ if(Pout0 != null){
 				break;
 
 			case "-header ":
-					
-			let op = x.match(/\x20response-header/) ?
-'http-response ' : 'http-request ';
+				z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
 				
-				if (x.match(/\x20re[^\s]+-header/) != undefined){
-					
-			if (x.match(/\(\\r\\n\)/g)){			
-				z[y - 1]?.match(/^#/) &&  HeaderRewrite.push(z[y - 1]);
-
-     if(x.match(/\$1\$2/)){
-		  HeaderRewrite.push(x.replace(/(\^?http[^\s]+).+?n\)([^\:]+).+/,`${op}$1 header-del $2`))	
-		}else{
-				HeaderRewrite.push(
-					x.replace(
-						/(\^?http[^\s]+)[^\)]+\)([^:]+):([^\(]+).+\$1\x20?\2?\:?\x20?([^\$]+)?\$2/,
-						`${op}$1 header-replace-regex $2 $3 "$4"`,
-					),
-				);
-				}
-				}else{
-					
-let lineNum = original.indexOf(x) + 1;
-others.push(lineNum + "行" + x)
-				}
-}else{
-	let lineNum = original.indexOf(x) + 1;
-	others.push(lineNum + "行" + x)
-};//-header结束
+				let reHdType = x.match(' response-header ') ? 'response' : 'request';
+				
+				let reHdPtn = x.split(" url re")[0].replace(/^#/,"");
+				
+				let reHdArg1 = x.split(" " + reHdType + "-header ")[1];
+				
+				let reHdArg2 = x.split(" " + reHdType + "-header ")[2];
+				
+				script.push(`${noteK}replaceHeader = type=http-${reHdType},pattern=${reHdPtn},script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/replace-header/index.js,argument="${reHdArg1}->${reHdArg2}"`)
+				
 				break;
 
 			case " echo-response ":
@@ -208,8 +192,8 @@ others.push(lineNum + "行" + x)
 					z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
 					script.push(
 						x.replace(
-							/#?([^\s]+)\x20url\x20(response|request)-body\x20(.+)\x20\2-body\x20(.+)/,
-							`${noteK}test = type=$2,pattern=$1,requires-body=1,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js,argument=$3->$4`,
+							/^#?([^\s]+)\x20url\x20(response|request)-body\x20(.+)\x20\2-body\x20(.+)/,
+							`${noteK}replacebody = type=http-$2,pattern=$1,requires-body=1,max-size=3145728,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js,argument=$3->$4`,
 						),
 					);
 				}
@@ -249,7 +233,7 @@ ${MITM}`
 		.replace(/(#.+\n)\n/g,'$1')
 		.replace(/t&zd;/g,',')
 		.replace(/"{2,}/g,'"')
-		.replace(/->("|')\n/g,"->$1$1\n")
+		.replace(/->(")\n/g,"->$1$1\n")
 		.replace(/\x20{2,}/g,' ')
 		.replace(/\n{2,}/g,'\n\n')
 
