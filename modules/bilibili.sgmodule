@@ -4,9 +4,9 @@
 # @ScriptName        BiliBili_AdBlock_DIY
 # @Author            @ddgksf2013, @blackmatrix7, @app2smile, @yjqiang
 //B站解锁普通视频高码率仅适用国区粉色APP，外区为自我安慰
+
 [MITM]
 hostname = %APPEND% *.hdslb.com,app.bilibili.com,api.live.bilibili.com,api.vc.bilibili.com,api.bilibili.com,manga.bilibili.com,grpc.biliapi.net,api.biliapi.net,-broadcast.chat.bilibili.com,-*cdn*.biliapi.net,-*tracker*.biliapi.net,upos-hz-mirrorakam.akamaized.net
-
 
 [URL Rewrite]
 
