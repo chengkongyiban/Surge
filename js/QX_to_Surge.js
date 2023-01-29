@@ -78,7 +78,7 @@ if(Pout0 != null){
 }else{};//增加注释结束
 
 	let type = x.match(
-		/\x20url\x20script-|enabled=|\x20url\x20reject$|url\x20reject-|\x20echo-response\x20|\-header|^hostname|url\x20(302|307)|\x20(request|response)-body/
+		/\x20url\x20script-|enabled=|\x20url\x20reject$|url\x20reject-|\x20echo-response\x20|\-header\x20|^hostname|url\x20(302|307)|\x20(request|response)-body/
 	)?.[0];
 	
 	//判断注释
@@ -154,14 +154,14 @@ if(Pout0 != null){
 				URLRewrite.push(x.replace(/(#)?(.+?)\x20url\x20reject$/, `${noteK}$2 - reject`));
 				break;
 
-			case "-header":
+			case "-header ":
 					
 			let op = x.match(/\x20response-header/) ?
 'http-response ' : 'http-request ';
 				
 				if (x.match(/\x20re[^\s]+-header/) != undefined){
 					
-			if (x.match(/\(\\r\\n\)/g).length === 2){			
+			if (x.match(/\(\\r\\n\)/g)){			
 				z[y - 1]?.match(/^#/) &&  HeaderRewrite.push(z[y - 1]);
 
      if(x.match(/\$1\$2/)){
@@ -187,11 +187,19 @@ others.push(lineNum + "行" + x)
 
 			case " echo-response ":
 				z[y - 1]?.match(/^#/) && MapLocal.push(z[y - 1]);
-				MapLocal.push(x.replace(/(\^?http[^\s]+).+(http.+)/, '$1 data="$2"'));
+				
+				let mockPtn = x.split(" url echo-response")[0].replace(/^#/,"");
+				
+				let dataCon = x.split(" echo-response ")[2];
+				
+				MapLocal.push(x.replace(/.+/,`${noteK}${mockPtn} data="${dataCon}"`));
+				
 				break;
+				
 			case "hostname":
 				MITM = x.replace(/hostname\x20?=(.*)/, `[MITM]\n\nhostname = %APPEND% $1`);
 				break;
+				
 			default:
 				if (type.match("url ")) {
 					z[y - 1]?.match(/^#/) && URLRewrite.push(z[y - 1]);
@@ -200,8 +208,8 @@ others.push(lineNum + "行" + x)
 					z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
 					script.push(
 						x.replace(
-							/([^\s]+)\x20url\x20(response|request)-body\x20(.+)\2-body(.+)/,
-							`test = type=$2,pattern=$1,requires-body=1,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js, argument=$3->$4`,
+							/#?([^\s]+)\x20url\x20(response|request)-body\x20(.+)\x20\2-body\x20(.+)/,
+							`${noteK}test = type=$2,pattern=$1,requires-body=1,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js,argument=$3->$4`,
 						),
 					);
 				}
@@ -227,16 +235,21 @@ ${desc}
 
 ${URLRewrite}
 
+
 ${HeaderRewrite}
+
 
 ${script}
 
+
 ${MapLocal}
+
 
 ${MITM}`
 		.replace(/(#.+\n)\n/g,'$1')
 		.replace(/t&zd;/g,',')
 		.replace(/"{2,}/g,'"')
+		.replace(/->("|')\n/g,"->$1$1\n")
 		.replace(/\x20{2,}/g,' ')
 		.replace(/\n{2,}/g,'\n\n')
 
