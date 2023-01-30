@@ -193,7 +193,7 @@ if(Pout0 != null){
 					script.push(
 						x.replace(
 							/^#?([^\s]+)\x20url\x20(response|request)-body\x20(.+)\x20\2-body\x20(.+)/,
-							`${noteK}replacebody = type=http-$2,pattern=$1,requires-body=1,max-size=3145728,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js,argument="$3->$4"`,
+							`${noteK}replaceBody = type=http-$2,pattern=$1,requires-body=1,max-size=3145728,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js,argument="$3->$4"`,
 						),
 					);
 				}
@@ -232,8 +232,6 @@ ${MapLocal}
 ${MITM}`
 		.replace(/(#.+\n)\n/g,'$1')
 		.replace(/t&zd;/g,',')
-		//.replace(/"{2,}/g,'"')
-		//.replace(/->(")\n/g,"->$1$1\n")
 		.replace(/\x20{2,}/g,' ')
 		.replace(/\n{2,}/g,'\n\n')
 
