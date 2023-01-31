@@ -56,7 +56,7 @@ let MITM = "";
 let others = [];
 
 body.forEach((x, y, z) => {
-	x = x.replace(/^(#|;|\/\/)/gi,'#').replace(/\x20{2,}/g," ");
+	x = x.replace(/^(#|;|\/\/)/gi,'#');
 //去掉注释
 if(Pin0 != null)	{
 	for (let i=0; i < Pin0.length; i++) {
@@ -100,11 +100,11 @@ if(Pout0 != null){
 				
 				let proto = x.match('proto.js') ? ',binary-body-mode=1' : '';
 				
-				let urlInNum = x.split(" ").indexOf("url");
+				let urlInNum = x.replace(/\x20{2,}/g," ").split(" ").indexOf("url");
 				
-				let ptn = x.split(" ")[urlInNum - 1].replace(/#/,"");
+				let ptn = x.replace(/\x20{2,}/g," ").split(" ")[urlInNum - 1].replace(/^#/,"");
 				
-				let js = x.split(" ")[urlInNum + 2];
+				let js = x.replace(/\x20{2,}/g," ").split(" ")[urlInNum + 2];
 				
 				let scname = js.substring(js.lastIndexOf('/') + 1, js.lastIndexOf('.') );
 				script.push(
@@ -118,11 +118,14 @@ if(Pout0 != null){
 			case "enabled=":
 				z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
 				
-				let cronExp = x.split(" http")[0].replace(/#/,'');
+				let cronExp = x.replace(/\x20{2,}/g," ").split(" http")[0].replace(/^#/,'');
+				if (cronExp.match(",")){
+					cronExp = '"' + cronExp + '"';
+				};
 				
 				let cronJs = x.split("://")[1].split(",")[0].replace(/(.+)/,'https://$1');
 				
-				let croName = x.split("tag=")[1].split(",")[0];
+				let croName = x.replace(/\x20/g,"").split("tag=")[1].split(",")[0];
 				
 				script.push(
 					x.replace(
@@ -136,22 +139,22 @@ if(Pout0 != null){
 
 				z[y - 1]?.match(/^#/) && MapLocal.push(z[y - 1]);
 				
-				let dict2Mock = x.match('dict') ? '"https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"' : '';
+				let dict2Mock = x.match(/dict$/) ? '"https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"' : '';
 				
-				let array2Mock = x.match('array') ? '"https://raw.githubusercontent.com/mieqq/mieqq/master/reject-array.json"' : '';
+				let array2Mock = x.match(/array$/) ? '"https://raw.githubusercontent.com/mieqq/mieqq/master/reject-array.json"' : '';
 				
-				let two002Mock = x.match('200') ? '"https://raw.githubusercontent.com/mieqq/mieqq/master/reject-200.txt"' : '';
+				let two002Mock = x.match(/200$/) ? '"https://raw.githubusercontent.com/mieqq/mieqq/master/reject-200.txt"' : '';
 				
-				let img2Mock = x.match('img') ? '"https://raw.githubusercontent.com/mieqq/mieqq/master/reject-img.gif"' : '';
+				let img2Mock = x.match(/img$/) ? '"https://raw.githubusercontent.com/mieqq/mieqq/master/reject-img.gif"' : '';
 				
-				MapLocal.push(x.replace(/(#)?(.+?)\x20url\x20reject-.+/, `${noteK}$2 data=${dict2Mock}${array2Mock}${two002Mock}${img2Mock}`));
+				MapLocal.push(x.replace(/\x20{2,}/g," ").replace(/(^#)?(.+?)\x20url\x20reject-.+/, `${noteK}$2 data=${dict2Mock}${array2Mock}${two002Mock}${img2Mock}`));
 				break;
 
 			case " url reject":
 
 				z[y - 1]?.match(/^#/) && URLRewrite.push(z[y - 1]);
 				
-				URLRewrite.push(x.replace(/(#)?(.+?)\x20url\x20reject$/, `${noteK}$2 - reject`));
+				URLRewrite.push(x.replace(/\x20{2,}/g," ").replace(/(^#)?(.+?)\x20url\x20reject$/, `${noteK}$2 - reject`));
 				break;
 
 			case "-header ":
@@ -159,7 +162,7 @@ if(Pout0 != null){
 				
 				let reHdType = x.match(' response-header ') ? 'response' : 'request';
 				
-				let reHdPtn = x.split(" url re")[0].replace(/^#/,"");
+				let reHdPtn = x.replace(/\x20{2,}/g," ").split(" url re")[0].replace(/^#/,"");
 				
 				let reHdArg1 = x.split(" " + reHdType + "-header ")[1];
 				
@@ -172,11 +175,11 @@ if(Pout0 != null){
 			case " echo-response ":
 				z[y - 1]?.match(/^#/) && MapLocal.push(z[y - 1]);
 				
-				let mockPtn = x.split(" url echo-response")[0].replace(/^#/,"");
+				let mockPtn = x.replace(/\x20{2,}/g," ").split(" url echo-response")[0].replace(/^#/,"");
 				
-				let dataCon = x.split(" echo-response ")[2];
+				let dataCon = x.replace(/\x20{2,}/g," ").split(" echo-response ")[2];
 				
-				MapLocal.push(x.replace(/.+/,`${noteK}${mockPtn} data="${dataCon}"`));
+				MapLocal.push(`${noteK}${mockPtn} data="${dataCon}"`);
 				
 				break;
 				
@@ -187,14 +190,22 @@ if(Pout0 != null){
 			default:
 				if (type.match("url ")) {
 					z[y - 1]?.match(/^#/) && URLRewrite.push(z[y - 1]);
-					URLRewrite.push(x.replace(/(#)?(.*?)\x20url\x20(302|307)\s(.+)/, `${noteK}$2 $4 $3`));
+					URLRewrite.push(x.replace(/\x20{2,}/g," ").replace(/(^#)?(.*?)\x20url\x20(302|307)\x20(.+)/, `${noteK}$2 $4 $3`));
 				} else {
+					
 					z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
+				
+				let reBdType = x.match(' response-body ') ? 'response' : 'request';
+				
+				let reBdPtn = x.replace(/\x20{2,}/g," ").split(" url re")[0].replace(/^#/,"");
+				let reBdArg1 = x.split(" " + reBdType + "-body ")[1];
+				
+				let reBdArg2 = x.split(" " + reBdType + "-body ")[2];
+					
 					script.push(
-						x.replace(
-							/^#?([^\s]+)\x20url\x20(response|request)-body\x20(.+)\x20\2-body\x20(.+)/,
-							`${noteK}replaceBody = type=http-$2,pattern=$1,requires-body=1,max-size=3145728,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js,argument="$3->$4"`,
-						),
+						
+							`${noteK}replaceBody = type=http-${reBdType},pattern=${reBdPtn},requires-body=1,max-size=3145728,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js,argument="${reBdArg1}->${reBdArg2}"`,
+						
 					);
 				}
 		} //switch结束
@@ -232,7 +243,6 @@ ${MapLocal}
 ${MITM}`
 		.replace(/(#.+\n)\n/g,'$1')
 		.replace(/t&zd;/g,',')
-		.replace(/\x20{2,}/g,' ')
 		.replace(/\n{2,}/g,'\n\n')
 
 if (isSurgeiOS || isStashiOS) {
