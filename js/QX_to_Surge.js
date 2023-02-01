@@ -108,10 +108,7 @@ if(Pout0 != null){
 				
 				let scname = js.substring(js.lastIndexOf('/') + 1, js.lastIndexOf('.') );
 				script.push(
-					x.replace(
-						/.+script-.+/,
-						`${noteK}${scname} = type=http-${sctype},pattern=${ptn}${rebody}${size}${proto},script-path=${js},script-update-interval=0`,
-					),
+						`${noteK}${scname} = type=http-${sctype},pattern=${ptn}${rebody}${size}${proto},script-path=${js},script-update-interval=0`
 				);
 				break;
 
@@ -128,10 +125,7 @@ if(Pout0 != null){
 				let croName = x.replace(/\x20/g,"").split("tag=")[1].split(",")[0];
 				
 				script.push(
-					x.replace(
-						/.+enabled=.+/,
-						`${noteK}${croName} = type=cron,script-path=${cronJs},timeout=60,cronexp=${cronExp},wake-system=1`,
-					),
+						`${noteK}${croName} = type=cron,script-path=${cronJs},timeout=60,cronexp=${cronExp},wake-system=1`
 				);
 				break;
 
@@ -184,7 +178,7 @@ if(Pout0 != null){
 				break;
 				
 			case "hostname":
-				MITM = x.replace(/hostname\x20?=(.*)/, `[MITM]\n\nhostname = %APPEND% $1`);
+				MITM = x.replace(/%.*%/g,"").replace(/\x20/g,"").replace(/hostname=(.*)/, `[MITM]\n\nhostname = %APPEND% $1`);
 				break;
 				
 			default:
