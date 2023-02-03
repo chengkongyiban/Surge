@@ -59,7 +59,7 @@ body.forEach((x, y, z) => {
 				z[y - 1]?.match(/^#/) && Rule.push(z[y - 1]);
 				
 		Rule.push(x.replace(/-(IMG|DICT|ARRAY)$/,""));
-	}else if (x.match(/^(DOM|USER|URL|IP|GEO)[^,]+,[^,]+[^,]$/)){
+	}else if (x.match(/^(DOM|USER|URL|IP|GEO)[^,]+,[^,]+$/)){
 	x.replace(/^(DOM|USER|URL|IP|GEO)[^,]+,[^,]+$/,"");
 	}else if (x.match(/\x20+(302|307)\x20+/)){
 						
