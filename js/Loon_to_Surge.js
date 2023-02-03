@@ -72,11 +72,11 @@ body.forEach((x, y, z) => {
 		
 }); //循环结束
 
-plugin = (plugin[0] || '') && `${plugin.join("\n")}`;
+plugin = (plugin[0] || '') && `${plugin.join("\n\n")}`;
 
 Rule = (Rule[0] || '') && `${Rule.join("\n")}`;
 
-urlRewrite = (urlRewrite[0] || '') && `${urlRewrite.join("\n")}`;
+urlRewrite = (urlRewrite[0] || '') && `${urlRewrite.join("\n\n")}`;
 
 MapLocal = (MapLocal[0] || '') && `\n\n[Map Local]\n\n${MapLocal.join("\n\n")}`;
 
