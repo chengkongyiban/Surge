@@ -4,6 +4,7 @@
 #!说明：打开商店后找到想要的插件，点左边插件的头像会自动转换为Surge支持的模块，复制链接添加到Surge模块即可
 #!我是否已经安装好了模块商店?如何验证?访问此链接验证 https://raw.githubusercontent.com/chengkongyiban/Loon/main/Plugin/Check.plugin
 #!集成了QX重写转Surge模块 在QX重写链接末尾加qx
+#!集成了QX规则集转Surge 在规则集链接末尾加r_parser.list
 
 [Script]
 
@@ -12,6 +13,8 @@ Loon-Gallery = type=http-request,pattern=https?:\/\/xn--ck8h\.com,script-path=ht
 Loon转Surge = type=http-request,pattern=plugin$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chengkongyiban/Surge/main/js/Loon_to_Surge.js
 
 QX转换 = type=http-request,pattern=qx\?.*|qx$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chengkongyiban/Surge/main/js/QX_to_Surge.js
+
+规则集转换 = type=http-request,pattern=r_parser.list$|r_parser.list\?.*,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chengkongyiban/stash/main/js/rule_parser.js
 
 [MITM]
 hostname = %APPEND% xn--ck8h.com,github.com:443,raw.githubusercontent.com:443,gitlab.com,gist.githubusercontent.com
