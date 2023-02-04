@@ -50,7 +50,6 @@ original = body.split("\n");
 	
 let script = [];
 let URLRewrite = [];
-let HeaderRewrite = [];
 let MapLocal = [];
 let MITM = "";
 let others = [];
@@ -212,8 +211,6 @@ script = script.replace(/(.+)pattern=(.+\{.*?,.*?\}.*?),(.+)/gi,'$1pattern="$2",
 
 URLRewrite = (URLRewrite[0] || '') && `[URL Rewrite]\n\n${URLRewrite.join("\n")}`;
 
-HeaderRewrite = (HeaderRewrite[0] || '') && `[Header Rewrite]\n\n${HeaderRewrite.join("\n")}`;
-
 MapLocal = (MapLocal[0] || '') && `[Map Local]\n\n${MapLocal.join("\n\n")}`;
 
 others = (others[0] || '') && `${others.join("\n\n")}`;
@@ -223,9 +220,6 @@ ${desc}
 
 
 ${URLRewrite}
-
-
-${HeaderRewrite}
 
 
 ${script}
