@@ -107,7 +107,7 @@ if (delNoteSc != null && x.match(/^#/)){
 				
 				let urlInNum = x.replace(/\x20{2,}/g," ").split(" ").indexOf("url");
 				
-				let ptn = x.replace(/\x20{2,}/g," ").split(" ")[urlInNum - 1].replace(/^#/,"");
+				let ptn = x.replace(/\x20{2,}/g," ").split(" ")[urlInNum - 1].replace(/^#/,"").replace(/(.*,.*)/,'"$1"');
 				
 				let js = x.replace(/\x20{2,}/g," ").split(" ")[urlInNum + 2];
 				
@@ -163,7 +163,7 @@ if (delNoteSc != null && x.match(/^#/)){
 				
 				let reHdType = x.match(' response-header ') ? 'response' : 'request';
 				
-				let reHdPtn = x.replace(/\x20{2,}/g," ").split(" url re")[0].replace(/^#/,"");
+				let reHdPtn = x.replace(/\x20{2,}/g," ").split(" url re")[0].replace(/^#/,"").replace(/(.*,.*)/,'"$1"');
 				
 				let reHdArg1 = x.split(" " + reHdType + "-header ")[1];
 				
@@ -198,7 +198,8 @@ if (delNoteSc != null && x.match(/^#/)){
 				
 				let reBdType = x.match(' response-body ') ? 'response' : 'request';
 				
-				let reBdPtn = x.replace(/\x20{2,}/g," ").split(" url re")[0].replace(/^#/,"");
+				let reBdPtn = x.replace(/\x20{2,}/g," ").split(" url re")[0].replace(/^#/,"").replace(/(.*,.*)/,'"$1"');
+				
 				let reBdArg1 = x.split(" " + reBdType + "-body ")[1];
 				
 				let reBdArg2 = x.split(" " + reBdType + "-body ")[2];
@@ -214,8 +215,6 @@ if (delNoteSc != null && x.match(/^#/)){
 }); //循环结束
 
 script = (script[0] || '') && `[Script]\n\n${script.join("\n\n")}`;
-
-script = script.replace(/(.+)pattern=(.+\{.*?,.*?\}.*?),(.+)/gi,'$1pattern="$2",$3')
 
 URLRewrite = (URLRewrite[0] || '') && `[URL Rewrite]\n\n${URLRewrite.join("\n")}`;
 
