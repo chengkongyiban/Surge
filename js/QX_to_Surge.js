@@ -24,6 +24,8 @@ var original = [];//用于获取原文行号
 var nName = urlArg.indexOf("n=") != -1 ? (urlArg.split("n=")[1].split("&")[0].split("+")) : null;
 var Pin0 = urlArg.indexOf("y=") != -1 ? (urlArg.split("y=")[1].split("&")[0].split("+")).map(decodeURIComponent) : null;
 var Pout0 = urlArg.indexOf("x=") != -1 ? (urlArg.split("x=")[1].split("&")[0].split("+")).map(decodeURIComponent) : null;
+var delNoteSc = urlArg.indexOf("del=") != -1 ? (urlArg.split("del=")[1].split("&")) : null;
+
 //修改名字和简介
 if (nName === null){
 	name = req.match(/.+\/(.+)\.(conf|js|snippet|txt)/)?.[1] || '无名';
@@ -75,6 +77,12 @@ if(Pout0 != null){
 	}else{};
 };//循环结束
 }else{};//增加注释结束
+
+if (delNoteSc != null && x.match(/^#/)){
+	if (x.match(/\.js$/) || x.match(/\x20echo-response\x20/)){
+		x = x.replace(/(.+)/,'')
+	}
+};
 
 	let type = x.match(
 		/\x20url\x20script-|enabled=|\x20url\x20reject$|url\x20reject-|\x20echo-response\x20|\-header\x20|^hostname|url\x20(302|307)|\x20(request|response)-body/
