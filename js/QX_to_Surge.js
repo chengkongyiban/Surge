@@ -24,7 +24,7 @@ var original = [];//用于获取原文行号
 var nName = urlArg.indexOf("n=") != -1 ? (urlArg.split("n=")[1].split("&")[0].split("+")) : null;
 var Pin0 = urlArg.indexOf("y=") != -1 ? (urlArg.split("y=")[1].split("&")[0].split("+")).map(decodeURIComponent) : null;
 var Pout0 = urlArg.indexOf("x=") != -1 ? (urlArg.split("x=")[1].split("&")[0].split("+")).map(decodeURIComponent) : null;
-var delNoteSc = urlArg.indexOf("del=") != -1 ? (urlArg.split("del=")[1].split("&")) : null;
+var delNoteSc = urlArg.indexOf("del=") != -1 ? true : false;
 
 //修改名字和简介
 if (nName === null){
@@ -78,7 +78,7 @@ if(Pout0 != null){
 };//循环结束
 }else{};//增加注释结束
 
-if (delNoteSc != null && x.match(/^#/)){
+if (delNoteSc === true && x.match(/^#/)){
 	if (x.match(/\.js$/) || x.match(/\x20echo-response\x20/)){
 		x = x.replace(/(.+)/,'')
 	}
@@ -132,8 +132,7 @@ if (delNoteSc != null && x.match(/^#/)){
 				let croName = x.replace(/\x20/g,"").split("tag=")[1].split(",")[0];
 				
 				script.push(
-						`${noteK}${croName} = type=cron,script-path=${cronJs},timeout=60,cronexp=${cronExp},wake-system=1`
-				);
+						`${noteK}${croName} = type=cron,script-path=${cronJs},timeout=60,cronexp=${cronExp},wake-system=1`);
 				break;
 
 			case "url reject-":
