@@ -5,7 +5,7 @@
 
 [Script]
 
-QX转换 = type=http-request,pattern=qx\?.*|qx$,requires-body=1,max-size=0,script-path=https://github.com/chengkongyiban/stash/raw/main/js/QX_RewriteParser.js
+QX转换 = type=http-request,pattern=qx\?.*|qx$,requires-body=1,max-size=0,script-path=https://github.com/chengkongyiban/stash/raw/main/js/QXRewrite_Parser.js
 
 规则集转换 = type=http-request,pattern=r_parser.list$|r_parser.list\?.*,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chengkongyiban/stash/main/js/rule_parser.js
 
