@@ -1,7 +1,6 @@
 #!name=QX重写&规则集转化
 #!desc=使用方法在重写链接末尾面加上qx，在规则集链接末尾加上r_parser.list
 #!author=@小白脸 
-#!此模块已整合至模块商店https://raw.githubusercontent.com/chengkongyiban/Surge/main/modules/LoonGalleryforSurge.sgmodule
 
 [Script]
 
