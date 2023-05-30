@@ -20,4 +20,4 @@ QX转换 = type=http-request,pattern=\/[^/]+\.[^/]+qx$|qx\?(jsc|hnadd|hndel|n|y|
 脚本转换 = type=http-request,pattern=_script-converter-(stash|surge|loon|shadowrocket)\.js$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/script-converter/script-converter.js
 
 [MITM]
-hostname = %APPEND% xn--ck8h.com,github.com:443,raw.githubusercontent.com:443,gitlab.com,gist.githubusercontent.com
+hostname = %APPEND% xn--ck8h.com,github.com:443,raw.githubusercontent.com:443,gitlab.com,gist.githubusercontent.com,ybnet.ga
