@@ -12,3 +12,5 @@ replaceHeader = type=http-request,pattern=^https?:\/\/www\.zhihu\.com,script-pat
 [MITM]
 
 hostname = %APPEND% *.baidu.com,www.zhihu.com
+
+^http:\/\/pgdt\.gtimg\.cn data="https://images.josqeen.one/uPic/202308/022220-1.jpg" header="Content-Type: image/png|field2: value2"
