@@ -17,4 +17,4 @@ hostname = %APPEND% *.baidu.com,www.zhihu.com
 
 AND,((PROTOCOL,UDP), (DEST-PORT,443)),REJECT-NO-DROP
 
-DOMAIN,baidu.com.REJECT-IMG
+DOMAIN,baidu.com.REJECT
