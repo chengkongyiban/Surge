@@ -1,20 +1,25 @@
-#!name=ChangeUA
-#!desc=ChangeUA
+#!name=Loon 京东 去广告
+#!desc=@RuCu6
+#!openUrl = 
+#!author = RuCu6
+#!homepage = https://gitlab.com/lodepuly/vpn_tool/-/tree/main/Tool/Loon/Plugin
+#!icon = https://gitlab.com/lodepuly/iconlibrary/-/raw/master/App_icon/120px/JD.png
+#!date = 2023-11-01 07:15:15
+
+[Rule]
+
+DOMAIN, dns.jd.com,REJECT
+IP-CIDR, 101.124.19.122/32,REJECT,no-resolve
+IP-CIDR6, 2402:db40:5100:1011::5/128,REJECT,no-resolve
 
 [Script]
 
-# 百度（全站替换为手机百度 Quark 的 User-Agent）
-replaceHeader = type=http-request,pattern=^https?:\/\/(?!d\.pcs).*(?<!map)\.b{2,5}aid{2,}u{1}\.com,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/replace-header/index.js,argument="(\r\n)User}-Agent:.+iPhone.+(\r\n)->$1User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/16C50 Quark/604.1 T7/10.3 SearchCraft/2.6.3 (Baidu; P1 8.0.0)$2"
+移除京东广告_14 = type=http-response, pattern=^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(personinfoBusiness|start), script-path=https://gitlab.com/lodepuly/vpn_tool/-/raw/main/Resource/Script/JD/JD_remove_ads.js, requires-body=true, max-size=3145728, timeout=30
 
-# 知乎（部分替换为手机百度 Quark 的 User-Agent）
-replaceHeader = type=http-request,pattern=^https?:\/\/www\.zhihu\.com,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/replace-header/index.js,argument="(\r\n)User-Agent:.+(\r\n)->$1User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/16C50 Quark/604.1 T7/10.3 SearchCraft/2.6.3 (Baidu; P1 8.0.0)$2"
+[Map Local]
+
+^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=uniformRecommend data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
 
 [MITM]
 
-hostname = %APPEND% *.baidu.com,www.zhihu.com
-
-^http:\/\/pgdt\.gtimg\.cn data="https://images.josqeen.one/uPic/202308/022220-1.jpg" header="Content-Type: image/png|field2: value2"
-
-AND,((PROTOCOL,UDP), (DEST-PORT,443)),REJECT-NO-DROP
-
-DOMAIN,baidu.com,REJECT-IMG
+hostname = %APPEND% api.m.jd.com
