@@ -1,25 +1,10 @@
-#!name=Loon 京东 去广告
-#!desc=@RuCu6
-#!openUrl = 
-#!author = RuCu6
-#!homepage = https://gitlab.com/lodepuly/vpn_tool/-/tree/main/Tool/Loon/Plugin
-#!icon = https://gitlab.com/lodepuly/iconlibrary/-/raw/master/App_icon/120px/JD.png
-#!date = 2023-11-01 07:15:15
-
-[Rule]
-
-DOMAIN, dns.jd.com,REJECT
-IP-CIDR, 101.124.19.122/32,REJECT,no-resolve
-IP-CIDR6, 2402:db40:5100:1011::5/128,REJECT,no-resolve
-
-[Script]
-
-移除京东广告_14 = type=http-response, pattern=^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(personinfoBusiness|start), script-path=https://gitlab.com/lodepuly/vpn_tool/-/raw/main/Resource/Script/JD/JD_remove_ads.js, requires-body=true, max-size=3145728, timeout=30
-
-[Map Local]
-
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=uniformRecommend data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
-
-[MITM]
-
-hostname = %APPEND% api.m.jd.com
+.kanzhongguo.com
+.kaob3.xyz
+.kaotic.com
+.karayou.com
+.karger.com
+.karinahart.com
+.karkhung.com
+.karlajames.com
+.karmapa-teachings.org
+.karmapa.org
