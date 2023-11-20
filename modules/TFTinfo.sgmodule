@@ -1,1 +1,10 @@
+#!name=TFT信息查询
+#!desc=TFT外区信息概览
+#在argument填写弈士id，大区，赛季即可
 
+[Script]
+# Panel
+TFT-info = type=generic,timeout=60,script-path=https://raw.githubusercontent.com/chengkongyiban/Surge/main/js/TFTinfo.js,argument="name=xxx&region=xxx&set=9.5"
+
+[Panel]
+TFT-info = script-name=TFT-info,update-interval=1
