@@ -47,9 +47,9 @@ if (tier == "GRANDMASTER" || tier == "CHALLENGER"){rank = ""};
 tier = titleCN[tier];
 region = serveCN[region];
 $done({
-        title: `${name}       S${season}`,
+        title: `${name}    S${season}   排名：${tierRating}`,
 		content: `段位：${tier}  ${rank}  ${lp}胜点
-大区：${region}   总场次：${plays}   排名：${tierRating}
+大区：${region}   总场次：${plays}
 吃鸡率：${winRate}    吃鸡数：${wins}
 前四率：${top4Rate}   前四数：${tops}`,
 		icon: "gamecontroller"
