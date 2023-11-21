@@ -1,6 +1,6 @@
 const $ = new Env("TFT-info");
 
-titleCN = {"IRON":"坚韧黑铁","BRONZE":"英勇青铜","SILVER":"不屈白银","GOLD":"荣耀黄金","PLATINUM":"华贵铂金","DIAMOND":"璀璨钻石","MASTER":"超凡大师","GRANDMASTER":"傲世宗师","CHALLENGER":"最强王者"};
+titleCN = {"IRON":"坚韧黑铁","BRONZE":"英勇青铜","SILVER":"不屈白银","GOLD":"荣耀黄金","PLATINUM":"华贵铂金","EMERALD":"流光翡翠","DIAMOND":"璀璨钻石","MASTER":"超凡大师","GRANDMASTER":"傲世宗师","CHALLENGER":"最强王者"};
 
 serveCN = {"br":"巴西","eune":"北欧东欧","euw":"欧洲西部","jp":"日本","kr":"韩国","lan":"拉丁美洲北部","las":"拉丁美洲南部","na":"北美","oce":"大洋洲","tr":"土耳其","ru":"俄罗斯","ph":"菲律宾","sg":"新加坡","th":"泰国","tw":"台湾","vn":"越南"}
 
