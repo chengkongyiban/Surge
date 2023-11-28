@@ -439,7 +439,7 @@ if (/url +echo-response | data *= *"/.test(x)){
 	
     jsBox = jsBox.reduce((curr, next) => {
       /*判断对象中是否已经有该属性  没有的话 push 到 curr数组*/
-      obj[next.jstype + next.jsptn] ? '' : obj[next.jstype + next.jsptn] = curr.push(next);
+      obj[next.jstype + next.jsptn + next.jsurl] ? '' : obj[next.jstype + next.jsptn + next.jsurl] = curr.push(next);
       return curr;
     }, []);
 	
