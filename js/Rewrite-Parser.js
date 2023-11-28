@@ -691,7 +691,7 @@ noteKn8 = "\n        ";noteKn6 = "\n      ";noteKn4 = "\n    ";noteK4 = "    ";n
 		
 		if (jstype!="cron"&&jstype!="generic") script.push(mark+noteKn4+'- match: '+jsptn+noteKn6+'name: "'+jsname+'"'+noteKn6+'type: '+jstype+rebody+size+proto+timeout+jsarg)
 		providers.push(`${noteK2}"`+jsname+'":'+`${noteKn4}url: `+jsurl+`${noteKn4}interval: 86400`)
-		if (jstype=="cron") script.push(mark+`${noteKn4}- name: "` + jsname + `"${noteKn6}cron: "` + cronexp + `"${timeout}` + jsarg);
+		if (jstype=="cron") cron.push(mark+`${noteKn4}- name: "` + jsname + `"${noteKn6}cron: "` + cronexp + `"${timeout}` + jsarg);
 		providers.push(`${noteK2}"` + jsname + '":' + `${noteKn4}url: ` + jsurl + `${noteKn4}interval: 86400`)
 		if (jstype=="generic") tiles.push(
 					mark+`${noteK2}- name: "${jsname}"${noteKn4}interval: 3600${noteKn4}title: "${jsname}"${noteKn4}icon: "${tilesicon}"${noteKn4}backgroundColor: "${tilescolor}"${noteKn4}timeout: 30${jsarg}`);
