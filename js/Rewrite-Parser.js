@@ -498,7 +498,7 @@ switch (targetApp){
 //rule输出 switch不适合
 	for (let i=0;i<ruleBox.length;i++){
 		noteK = ruleBox[i].noteK ? "#" : "";
-		mark = rwBox[i].mark ? rwBox[i].mark+"\n" : "";	
+		mark = ruleBox[i].mark ? ruleBox[i].mark+"\n" : "";	
 		if (noteK != "#" && isStashiOS){
 noteKn8 = "\n        ";noteKn6 = "\n      ";noteKn4 = "\n    ";noteK4 = "    ";noteK2 = "  ";
 	}else{noteKn8 = "\n#        ";noteKn6 = "\n#      ";noteKn4 = "\n#    ";noteK4 = "#    ";noteK2 = "#  ";};
@@ -627,7 +627,7 @@ switch (targetApp){
 	case "loon-plugin":
 	for (let i=0;i<jsBox.length;i++){
 		noteK = jsBox[i].noteK ? "#" : "";
-		mark = rwBox[i].mark ? rwBox[i].mark+"\n" : "";	
+		mark = jsBox[i].mark ? jsBox[i].mark+"\n" : "";	
 		jstype = jsBox[i].jstype;
 		jsptn = jstype == "generic" ? "" :jsBox[i].jsptn;
 		if (/,/.test(jsptn) && isSurgeiOS) jsptn = '"'+jsptn+'"';
@@ -672,7 +672,7 @@ for (let i = 0; i < jsBox.length; i++) {
 noteKn8 = "\n        ";noteKn6 = "\n      ";noteKn4 = "\n    ";noteK4 = "    ";noteK2 = "  ";
 	}else{noteKn8 = "\n#        ";noteKn6 = "\n#      ";noteKn4 = "\n#    ";noteK4 = "#    ";noteK2 = "#  ";};
 		jstype = jsBox[i].jstype.replace(/http-/,'');
-		mark = rwBox[i].mark ? rwBox[i].mark+"\n" : "";	
+		mark = jsBox[i].mark ? jsBox[i].mark+"\n" : "";	
 		jsptn = jsBox[i].jsptn;
 		jsname = jsBox[i].jsname;
 		jsurl = jsBox[i].jsurl;
@@ -702,7 +702,7 @@ switch (targetApp){
 	case "surge-module":
 	for (let i=0;i<mockBox.length;i++){
 		noteK = mockBox[i].noteK ? "#" : "";
-		mark = rwBox[i].mark ? rwBox[i].mark+"\n" : "";	
+		mark = mockBox[i].mark ? mockBox[i].mark+"\n" : "";	
 		mockptn = mockBox[i].mockptn;
 		mockurl = mockBox[i].mockurl;
 		mockheader = keepHeader == true && mockBox[i].mockheader && !/&contentType=/.test(mockBox[i].mockheader) ? ' header="'+mockBox[i].mockheader+'"' : "";
@@ -715,7 +715,7 @@ switch (targetApp){
 	case "stash-stoverride":
 	for (let i=0;i<mockBox.length;i++){
 		noteK = mockBox[i].noteK ? "#" : "";
-		mark = rwBox[i].mark ? rwBox[i].mark+"\n" : "";	
+		mark = mockBox[i].mark ? mockBox[i].mark+"\n" : "";	
 		if (isStashiOS && noteK!="#"){
 noteKn8 = "\n        ";noteKn6 = "\n      ";noteKn4 = "\n    ";noteK4 = "    ";noteK2 = "  ";
 	}else{noteKn8 = "\n#        ";noteKn6 = "\n#      ";noteKn4 = "\n#    ";noteK4 = "#    ";noteK2 = "#  ";};
