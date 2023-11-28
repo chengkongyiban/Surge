@@ -125,7 +125,7 @@ let providers = [];
 
 hnBox = hnAdd != null ? hnAdd : [];
 
-const jsRegx = /[=,] *script-path *=|[=,] *pattern *=|[=,] *timeout *=|[=,] *argument *=|[=,] *script-update-interval *=|[=,] *requires-body *=|[=,] *max-size *=|[=,] *ability *=|[=,] *binary-body-mode *=|[=,] *cronexpr? *=|[=,] *wake-system *=|[=,] *enable *=|[=,] *tag *=|[=,] *type *=|[=,] *img-url *=|[=,] *debug *=/;
+const jsRegx = /[=,] *script-path *=|[=,] *pattern *=|[=,] *timeout *=|[=,] *argument *=|[=,] *script-update-interval *=|[=,] *requires-body *=|[=,] *max-size *=|[=,] *ability *=|[=,] *binary-body-mode *=|[=,] *cronexpr? *=|[=,] *wake-system *=|[=,] *enable *=|[=,] *tag *=|[=,] *type *=|[=,] *img-url *=|[=,] *debug *=|[=,] *event-name *=/;
 
 //查询js binarymode相关
 let binaryInfo = $.getval("Parser_binary_info");
@@ -304,6 +304,7 @@ if (/^#?(?:domain(?:-suffix|-keyword|-set)?|ip-cidr6?|ip-asn|rule-set|user-agent
 		jsfrom = "surge";
 		jsUrl = toJsc(jsUrl,jscStatus,jsc2Status,jsfrom);
 		jsType = /[=,] *type *= */.test(x) ? getJsInfo(x, /[=,] *type *=/) : x.split(/ +/)[0].replace(/^#/,"");
+		eventName = getJsInfo(x, /[=,] *event-name *= */);
 		size = getJsInfo(x, /[=,] *max-size *= */);
 		proto = getJsInfo(x, /[=,] *binary-body-mode *= */);
 		jsPtn = /[=,] *pattern *= */.test(x) ? getJsInfo(x, /[=,] *pattern *= */).replace(/"/g,'') : x.split(/ +/)[1];
@@ -336,7 +337,7 @@ if (/^#?(?:domain(?:-suffix|-keyword|-set)?|ip-cidr6?|ip-asn|rule-set|user-agent
 	if (x.indexOf(elem) != -1){
         cronExp = nCronExp[i];   
             };};};
-			jsBox.push({mark,"noteK":noteK,"jsname":jsName+`_${y}`,"jstype":jsType,"jsptn":jsPtn,"jsurl":jsUrl,"rebody":reBody,"proto":proto,"size":size,"ability":ability,"updatatime":updataTime,"timeout":timeOut,"jsarg":jsArg,"cronexp":cronExp,"wakesys":wakeSys,"tilesicon":tilesIcon,"tilescolor":tilesColor})
+			jsBox.push({mark,"noteK":noteK,"jsname":jsName+`_${y}`,"jstype":jsType,"jsptn":jsPtn,"jsurl":jsUrl,"rebody":reBody,"proto":proto,"size":size,"ability":ability,"updatatime":updataTime,"timeout":timeOut,"jsarg":jsArg,"cronexp":cronExp,"wakesys":wakeSys,"tilesicon":tilesIcon,"tilescolor":tilesColor,"eventname":eventName})
 
 };//脚本解析结束
 
@@ -633,10 +634,12 @@ switch (targetApp){
 		noteK = jsBox[i].noteK ? "#" : "";
 		mark = jsBox[i].mark ? jsBox[i].mark+"\n" : "";	
 		jstype = jsBox[i].jstype;
-		jsptn = jstype == "generic" ? "" :jsBox[i].jsptn;
+		jsptn = /generic|event/.test(jstype) ? "" : jsBox[i].jsptn;
+		jsptn = isLooniOS && jsptn ? " " + jsptn : jsptn;
 		if (/,/.test(jsptn) && isSurgeiOS) jsptn = '"'+jsptn+'"';
 		if ((isSurgeiOS||isShadowrocket)&&jsptn!="") jsptn = ', pattern='+jsptn;
 		jsname = jsBox[i].jsname;
+		eventname = jsBox[i].eventname ? ', event-name='+jsBox[i].eventname : "";
 		jsurl = jsBox[i].jsurl;
 		rebody = jsBox[i].rebody ? ", requires-body="+jsBox[i].rebody : "";
 		proto = jsBox[i].proto ? ", binary-body-mode="+jsBox[i].proto : "";
@@ -649,8 +652,9 @@ switch (targetApp){
 		jsarg = jsBox[i].jsarg ? jsBox[i].jsarg : "";
 		if (jsarg != "" && /,/.test(jsarg)) jsarg = ', argument="'+jsarg+'"';
 		if (jsarg != "" && !/,/.test(jsarg)) jsarg = ', argument='+jsarg;
-		if (jstype !="cron" && isLooniOS) script.push(mark+noteK+jstype+" "+jsptn+" script-path="+jsurl+rebody+proto+timeout+", tag="+jsname+jsarg);
-		if (jstype != "cron" && (isSurgeiOS || isShadowrocket)) script.push(mark+noteK+jsname+" = type="+jstype+jsptn+", script-path="+jsurl+rebody+proto+size+ability+updatatime+timeout+jsarg)
+		if (!/event|cron/.test(jstype) && isLooniOS) script.push(mark+noteK+jstype+jsptn+" script-path="+jsurl+rebody+proto+timeout+", tag="+jsname+jsarg);
+		if (!/event|cron/.test(jstype) && (isSurgeiOS || isShadowrocket)) script.push(mark+noteK+jsname+" = type="+jstype+jsptn+", script-path="+jsurl+rebody+proto+size+ability+updatatime+timeout+jsarg)
+		if (jstype == "event" && (isSurgeiOS || isShadowrocket)) script.push(mark+noteK+jsname+" = type="+jstype+eventname+", script-path="+jsurl+ability+updatatime+timeout+jsarg)
 		if (jstype =="cron" && (isSurgeiOS || isShadowrocket)) script.push(mark+noteK+jsname+' = type='+jstype+', cronexp="'+cronexp+'"'+', script-path='+jsurl+updatatime+timeout+wakesys+jsarg);
 		if (jstype =="cron" && isLooniOS) script.push(mark+noteK+jstype+' "'+cronexp+'"'+" script-path="+jsurl+timeout+', tag='+jsname+jsarg)
 		if (isSurgeiOS && jstype == "generic") Panel.push(jsname+" = script-name="+jsname+", update-interval=3600")
