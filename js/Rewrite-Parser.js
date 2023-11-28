@@ -632,8 +632,8 @@ noteKn8 = "\n        ";noteKn6 = "\n      ";noteKn4 = "\n    ";noteK4 = "    ";n
 		jsptn = jsBox[i].jsptn;
 		jsname = jsBox[i].jsname;
 		jsurl = jsBox[i].jsurl;
-		rebody = jsBox[i].rebody ? noteKn6+"require-body: "+jsBox[i].rebody : "";
-		proto = jsBox[i].proto ? noteKn6+"binary-mode: "+jsBox[i].proto : "";
+		rebody = jsBox[i].rebody ? noteKn6+"require-body: "+istrue(jsBox[i].rebody) : "";
+		proto = jsBox[i].proto ? noteKn6+"binary-mode: "+istrue(jsBox[i].proto) : "";
 		size = jsBox[i].size ? noteKn6+"max-size: "+jsBox[i].size : "";
 		cronexp = jsBox[i].cronexp;
 		timeout = jsBox[i].timeout ? noteKn6+"timeout: "+jsBox[i].timeout : "";
@@ -691,12 +691,12 @@ noteKn8 = "\n        ";noteKn6 = "\n      ";noteKn4 = "\n    ";noteK4 = "    ";n
 		
 		mockurl = m2rType == null ? `http://script.hub/convert/_start_/${mockurl}/_end_/${mfile}?type=mock&target-app=${targetApp}${mockheader}${sufkeepHeader}${sufjsDelivr}` : "";
 		
-		if (isStashiOS) {
+		if (isStashiOS && m2rType==null) {
 		script.push(`${noteK4}- match: ${mockptn}${noteKn6}name: "${mfName}_${y}"${noteKn6}type: request${noteKn6}timeout: 60${noteKn6}binary-mode: true`)
 		
 		providers.push(`${noteK2}"${mfName}_${y}":${noteKn4}url: ${mockurl}${noteKn4}interval: 86400`)};
 		
-		if (isLooniOS || isShadowrocket){
+		if ((isLooniOS || isShadowrocket)&&m2rType==null){
 		script.push(`${noteK}http-request ${mockptn} script-path=${mockurl}, timeout=60, tag=${mfName}_${y}`)
 		};
 		
