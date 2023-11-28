@@ -1,0 +1,48 @@
+name: "Script Hub: 重写转换 内测"
+desc: "https://script.hub"
+
+http:
+  force-http-engine:
+    - "script.hub"
+    - "*.script.hub"
+
+  mitm:
+    - "script.hub"
+    - "*.script.hub"
+
+  script:
+
+    - match: ^https?:\/\/script\.hub\/($|edit\/|reload)
+      name: "Script Hub: 前端_7"
+      type: request
+      timeout: 120
+
+    - match: ^https?:\/\/script\.hub\/file\/_start_\/.+type=(qx-rewrite|loon-plugin|surge-module)
+      name: "Script Hub: 重写转换内测_8"
+      type: request
+      timeout: 120
+
+    - match: ^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set
+      name: "Script Hub: 规则集转换_9"
+      type: request
+      timeout: 120
+
+    - match: ^https?:\/\/script\.hub\/convert\/
+      name: "Script Hub: 脚本转换_10"
+      type: request
+      timeout: 120
+
+script-providers:
+  "Script Hub: 前端_7":
+    url: https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/script-hub.beta.js
+    interval: 86400
+  "Script Hub: 重写转换内测_8":
+    url: https://raw.githubusercontent.com/chengkongyiban/Surge/main/js/Rewrite-Parser.js
+    interval: 86400
+  "Script Hub: 规则集转换_9":
+    url: https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/rule-parser.beta.js
+    interval: 86400
+  "Script Hub: 脚本转换_10":
+    url: https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/script-converter.js
+    interval: 86400
+
