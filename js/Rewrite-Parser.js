@@ -231,7 +231,9 @@ if (isLooniOS&&/^#!(?:select|input) *= *.+/.test(x)){
 	getModInfo(x,modInputBox);
 }else if (/^#![nda].+=.+/.test(x) && (isSurgeiOS || isShadowrocket || isStashiOS)){getModInfo(x,modInfoBox);
 	
-}else if (isLooniOS && /^#!.+=.+/.test(x)){
+}else if (isLooniOS && /^#!.+= *$/.test(x)){
+	
+} else if (isLooniOS && /^#!.+=.+/.test(x)){
 	getModInfo(x,modInfoBox);
 };
 
