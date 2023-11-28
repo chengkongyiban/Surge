@@ -1,5 +1,5 @@
 #!name=Script Hub: 重写转换 内测
-#!desc=🔗 [2023/11/12 05:50:57] https://script.hub
+#!desc=https://script.hub
 
 [General]
 
@@ -11,10 +11,10 @@ hostname = %APPEND% script.hub, *.script.hub
 
 [Script]
 
-Script Hub: 前端 = type=http-request,pattern=^https?:\/\/script\.hub\/($|edit\/|reload), requires-body=0, max-size=0,script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/script-hub.beta.js, timeout=120
+Script Hub: 前端 = type=http-request, pattern=^https?:\/\/script\.hub\/($|edit\/|reload), script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/script-hub.beta.js, timeout=120
 
-Script Hub: 重写转换内测 = type=http-request, pattern=^https?:\/\/script\.hub\/file\/_start_\/.+type=(qx-rewrite|loon-plugin|surge-module), requires-body=0, max-size=0, script-path=https://raw.githubusercontent.com/chengkongyiban/Surge/main/js/Rewrite-Parser.js, timeout=120
+Script Hub: 重写转换内测 = type=http-request, pattern=^https?:\/\/script\.hub\/file\/_start_\/.+type=(qx-rewrite|loon-plugin|surge-module), script-path=https://raw.githubusercontent.com/chengkongyiban/Surge/main/js/Rewrite-Parser.js, timeout=120
 
-Script Hub: 规则集转换 = type=http-request, pattern=^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set, requires-body=0, max-size=0, script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/rule-parser.beta.js, timeout=120
+Script Hub: 规则集转换 = type=http-request, pattern=^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set, script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/rule-parser.beta.js, timeout=120
 
-Script Hub: 脚本转换 = type=http-request, pattern=^https?:\/\/script\.hub\/convert\/, requires-body=0, max-size=0, script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/script-converter.js, timeout=120
+Script Hub: 脚本转换 = type=http-request, pattern=^https?:\/\/script\.hub\/convert\/, script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/script-converter.js, timeout=120
