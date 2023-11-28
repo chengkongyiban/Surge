@@ -454,8 +454,6 @@ if (/url +echo-response | data *= *"/.test(x)){
 inBox.length != 0 && ntf == true && $.msg('Script Hub: 重写转换','已根据关键词保留以下内容',`${inBox}`);
 outBox.length != 0 && ntf == true && $.msg('Script Hub: 重写转换','已根据关键词排除以下内容',`${outBox}`);
 
-$.log($.toStr(modInfoBox))
-
 //mitm删除主机名
 if (hnDel != null && hnBox.length != 0) hnBox=hnBox.filter(function(item) {
     return hnDel.indexOf(item) == -1
