@@ -24,6 +24,7 @@ var evUrlori = queryObject.evalUrlori;
 var evUrlmodi = queryObject.evalUrlmodi;
 
 var ntf = queryObject.ntf ? istrue(queryObject.ntf) : true;//默认开启通知
+ntf = $.getdata("ScriptHub通知") ? istrue($.getdata("ScriptHub通知")) : ntf;
 var nName = queryObject.n != undefined ? queryObject.n.split("+") : null;//名字简介
 var Pin0 = queryObject.y != undefined ? queryObject.y.split("+") : null;//保留
 var Pout0 = queryObject.x != undefined ? queryObject.x.split("+") : null;//排除
