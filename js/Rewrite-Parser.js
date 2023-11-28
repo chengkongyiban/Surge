@@ -226,14 +226,14 @@ if (compatibilityOnly == true && (jscStatus == true || jsc2Status == true)){
 jsSuf = jsSuf + "&compatibilityOnly=true"
 };
 
-//模块信息
-if (isLooniOS&&/^#!(?:select|input) *= *.+/.test(x)){
+//模块信息 
+if (/^#!.+?= *$/.test(x)){
+	
+} else if (isLooniOS&&/^#!(?:select|input) *= *.+/.test(x)){
 	getModInfo(x,modInputBox);
-}else if (/^#![nda].+=.+/.test(x) && (isSurgeiOS || isShadowrocket || isStashiOS)){getModInfo(x,modInfoBox);
+}else if (/^#![nda].+?=.+/.test(x) && (isSurgeiOS || isShadowrocket || isStashiOS)){getModInfo(x,modInfoBox);
 	
-}else if (isLooniOS && /^#!.+= *$/.test(x)){
-	
-} else if (isLooniOS && /^#!.+=.+/.test(x)){
+}else if (isLooniOS && /^#!.+?=.+/.test(x)){
 	getModInfo(x,modInfoBox);
 };
 
