@@ -3,7 +3,6 @@ const $ = new Env(`重写转换内测`)
 const url = $request.url;
 var req = url.split(/file\/_start_\//)[1].split(/\/_end_\//)[0];
 var reqArr = req.match("%F0%9F%98%82") ? req.split("%F0%9F%98%82") : [req];
-$.log(req)
 	//$.log("原始链接：" + req);
 
 var urlArg = url.split(/\/_end_\//)[1];
@@ -187,7 +186,7 @@ if (delNoteSc === true && x.match(/^#/) && x.indexOf("#!") == -1){
 if (sni != null){
 	for (let i=0; i < sni.length; i++) {
   const elem = sni[i];
-	if (x.indexOf(elem) != -1 && x.search(/^DOMAIN/i) != -1 && x.search(/, *extended-matching/) == -1){
+	if (x.indexOf(elem) != -1 && /^(DOMAIN|RULE-SET)/i.test(x) && !/, *extended-matching/i.test(x)){
 		x = x + ",extended-matching";
 	};
 };//循环结束
@@ -195,7 +194,7 @@ if (sni != null){
 
 //ip规则不解析域名
 if(ipNoResolve === true){
-	if (x.match(/^ip6?-[ca]/i) != null && x.search(/, *no-resolve/) == -1){
+	if (/^(?:ip-[ca]|RULE-SET)/i.test(x) && !/, *no-resolve/.test(x)){
 		x = x + ",no-resolve";
 	};
 };//增加ip规则不解析域名结束
@@ -241,7 +240,7 @@ if (/^skip-proxy *=.+/.test(x)) getHn(x,skipBox);
 if (/^(?:alway-)?real-ip *=.+/.test(x)) getHn(x,realBox);
 
 //reject 解析
-	if (/[^,] *reject(?:-\w+)?$/i.test(x)) rw_reject(x);
+	if (/^#?[^DIURP].+reject(?:-\w+)?$/i.test(x)) rw_reject(x);
 	
 //重定向 解析
 	if (/(?: (?:302|307|header)(?:$| )|url 30(?:2|7) )/.test(x)) rw_redirect(x);
@@ -422,9 +421,7 @@ if (/url +echo-response | data *= *"/.test(x)) getMockInfo(x);
 
 inBox.length != 0 && ntf == true && $.msg('Script Hub: 重写转换','已根据关键词保留以下内容',`${inBox}`);
 outBox.length != 0 && ntf == true && $.msg('Script Hub: 重写转换','已根据关键词排除以下内容',`${outBox}`);
-
 $.log($.toStr(ruleBox))
-
 //mitm删除主机名
 if (hnDel != null && hnBox.length != 0) hnBox=hnBox.filter(function(item) {
     return hnDel.indexOf(item) == -1
