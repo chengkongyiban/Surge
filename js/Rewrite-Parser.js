@@ -125,7 +125,7 @@ let providers = [];
 
 hnBox = hnAdd != null ? hnAdd : [];
 
-const jsRegx = /[=,] *script-path *=|[=,] *pattern *=|[=,] *timeout *=|[=,] *argument *=|[=,] *script-update-interval *=|[=,] *requires-body *=|[=,] *max-size *=|[=,] *ability *=|[=,] *binary-body-mode *=|[=,] *cronexpr? *=|[=,] *wake-system *=|[=,] *enable *=|[=,] *tag *=|[=,] *type *=|[=,] *img-url *=/;
+const jsRegx = /[=,] *script-path *=|[=,] *pattern *=|[=,] *timeout *=|[=,] *argument *=|[=,] *script-update-interval *=|[=,] *requires-body *=|[=,] *max-size *=|[=,] *ability *=|[=,] *binary-body-mode *=|[=,] *cronexpr? *=|[=,] *wake-system *=|[=,] *enable *=|[=,] *tag *=|[=,] *type *=|[=,] *img-url *=|[=,] *debug *=/;
 
 //查询js binarymode相关
 let binaryInfo = $.getval("Parser_binary_info");
