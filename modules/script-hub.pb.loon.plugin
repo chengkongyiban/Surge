@@ -1,0 +1,22 @@
+#!name=Script Hub: 重写转换 内测
+#!desc=https://script.hub
+#!icon=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/assets/icon-dark.png
+
+[General]
+
+force-http-engine-hosts = script.hub,*.script.hub
+
+[MITM]
+
+hostname = script.hub,*.script.hub
+
+[Script]
+
+http-request ^https?:\/\/script\.hub\/($|edit\/|reload) script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/script-hub.beta.js, requires-body=0, timeout=120, tag=Script Hub: 前端_7
+
+http-request ^https?:\/\/script\.hub\/file\/_start_\/.+type=(qx-rewrite|loon-plugin|surge-module) script-path=https://raw.githubusercontent.com/chengkongyiban/Surge/main/js/Rewrite-Parser.js, requires-body=0, timeout=120, tag=Script Hub: 重写转换内测_8
+
+http-request ^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/rule-parser.beta.js, requires-body=0, timeout=120, tag=Script Hub: 规则集转换_9
+
+http-request ^https?:\/\/script\.hub\/convert\/ script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/script-converter.js, requires-body=0, timeout=120, tag=Script Hub: 脚本转换_10
+
