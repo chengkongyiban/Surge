@@ -92,26 +92,29 @@ if (isSurgeiOS || isShadowrocket) modInfoBackup = `#!name=${name}
 if (isStashiOS) modInfoBackup = `name: "${name}"
 desc: "${desc}"`;
 
-let bodyBox = [];
-let otherRule = [];
-let inBox = [];      //被释放的重写或规则
-let outBox = [];     //被排除的重写或规则
-let modInfoBox = [];
-let modInputBox = [];
-let ruleBox = [];
-let rwBox = [];
-let rwhdBox = [];
-let jsBox = [];
-let mockBox = [];
-let hnBox = [];
-let fheBox = [];
-let skipBox = [];
-let realBox = [];
-let modInfo = [];
-let httpFrame = [];
-let tiles = [];
-let General = [];
-let Panel = [];
+//信息中转站
+let bodyBox = [];      //存储待转换的内容
+let otherRule = [];    //不支持的规则
+let inBox = [];        //被释放的重写或规则
+let outBox = [];       //被排除的重写或规则
+let modInfoBox = [];   //模块简介等信息
+let modInputBox = [];  //loon插件的可交互按钮
+let ruleBox = [];      //规则
+let rwBox = [];        //重写
+let rwhdBox = [];      //HeaderRewrite
+let jsBox = [];        //脚本
+let mockBox = [];      //MapLocal或echo-response
+let hnBox = [];        //MITM主机名
+let fheBox = [];       //force-http-engine
+let skipBox = [];      //skip-ip
+let realBox = [];      //real-ip
+
+//待输出
+let modInfo = [];      //模块简介
+let httpFrame = [];    //Stash的http:父框架
+let tiles = [];        //磁贴覆写
+let General = [];      
+let Panel = [];        
 let rules = [];
 let URLRewrite = [];
 let HeaderRewrite = [];
@@ -835,6 +838,7 @@ ${script}
 	
 	if (URLRewrite != "" || script != "" || HeaderRewrite != "" || MITM != "" || force != ""){
 httpFrame = `http:
+
 ${force}
 
 ${MITM}
