@@ -72,11 +72,11 @@ function a (arr) {
 
 cartype = decodeURIComponent(cartype);
 
-!$.isLoon() && $script.type == 'cron' && $.msg(`${cityCN}限行信息 ${cartype} ${loo}`,`今日限行: ${xxtodaydate}  ${xxtodaynum}
+($.isSurge() || $.isShadowrocket() || $.isStash()) && $script.type == 'cron' && $.msg(`${cityCN}限行信息 ${cartype} ${loo}`,`今日限行: ${xxtodaydate}  ${xxtodaynum}
 明日限行: ${xxtomorrowdate}  ${xxtomorrownum}`,`${xxdate}
 ${xxregion}`,{url:url});
 
-$.isLoon() && $.msg(`${cityCN}限行信息 ${cartype} ${loo}`,`今日限行: ${xxtodaydate}  ${xxtodaynum}
+($.isLoon() || $.isQuanX()) && $.msg(`${cityCN}限行信息 ${cartype} ${loo}`,`今日限行: ${xxtodaydate}  ${xxtodaynum}
 明日限行: ${xxtomorrowdate}  ${xxtomorrownum}`,`${xxdate}
 ${xxregion}`,{url:url});
 
