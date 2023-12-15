@@ -11,7 +11,7 @@
 # Panel
 xianxing = type=generic, script-path=https://raw.githubusercontent.com/chengkongyiban/Surge/main/js/xianxing.js, timeout=60, argument=city=bj&cartype=燃油车&loo=本地车&displayxxregion=false
 
-限行 = type=cron,script-path=https://raw.githubusercontent.com/chengkongyiban/Surge/main/js/xianxing.js,cronexp="0 7 * * *",timeout=10,script-update-interval=0,enable=true
+限行 = type=cron,script-path=https://raw.githubusercontent.com/chengkongyiban/Surge/main/js/xianxing.js,cronexp="0 7 * * *",timeout=10,script-update-interval=0,argument=city=bj&cartype=燃油车&loo=本地车&displayxxregion=false
 
 **************************/
 
