@@ -11,20 +11,20 @@
 # Panel
 xianxing = type=generic, script-path=https://raw.githubusercontent.com/chengkongyiban/Surge/main/js/xianxing.js, timeout=60, argument=city=bj&cartype=燃油车&loo=本地车&displayxxregion=false
 
-限行 = type=cron,script-path=https://raw.githubusercontent.com/chengkongyiban/Surge/main/js/xianxing.js,cronexp="0 7 * * *",timeout=10,script-update-interval=0,argument=city=bj&cartype=燃油车&loo=本地车&displayxxregion=false
+限行 = type=cron,script-path=https://raw.githubusercontent.com/chengkongyiban/Surge/main/js/xianxing.js,cronexp="0 7 * * *",timeout=10,script-update-interval=0,enable=true
 
 **************************/
 
 const $ = new Env("限行查询");
 
 var city = 'bj';
-var cartype = '燃油车';
+var cartype = encodeURIComponent('燃油车');
 var loo = '本地车';
 var displayxxregion = false;
 
 if (typeof $argument !== 'undefined' && $argument !== '') {
     city = $argument.split('city=')[1].split('&')[0];
-    cartype = $argument.split('cartype=')[1].split('&')[0];
+    cartype = encodeURIComponent($argument.split('cartype=')[1].split('&')[0]);
 		loo = /外地车/.test($argument) ? '外地车' : loo;
         displayxxregion = /displayxxregion=/.test($argument) ? istrue($argument.split('displayxxregion=')[1].split('&')[0]) : false;
 };
@@ -70,13 +70,15 @@ function a (arr) {
 	return arr
 };//for
 
+cartype = decodeURIComponent(cartype);
+
 !$.isLoon() && $script.type == 'cron' && $.msg(`${cityCN}限行信息 ${cartype} ${loo}`,`今日限行: ${xxtodaydate}  ${xxtodaynum}
 明日限行: ${xxtomorrowdate}  ${xxtomorrownum}`,`${xxdate}
-${xxregion}`);
+${xxregion}`,{url:url});
 
 $.isLoon() && $.msg(`${cityCN}限行信息 ${cartype} ${loo}`,`今日限行: ${xxtodaydate}  ${xxtodaynum}
 明日限行: ${xxtomorrowdate}  ${xxtomorrownum}`,`${xxdate}
-${xxregion}`);
+${xxregion}`,{url:url});
 
 $.done({
         title: `${cityCN}限行信息 ${cartype} ${loo}`,
@@ -90,7 +92,8 @@ ${xxregion}`,
 
 })()
 .catch((e) => {
-		$.msg(`限行查询`,`请正确填写城市首字母缩写`,`${e}`,'');
+    /xxd\.match/.test(e) && $.msg(`限行查询`,`请正确填写城市首字母缩写`,`${e}`,'');
+    $.msg(`限行查询`,`${e}`,``,'');
 		
     }
 	)
