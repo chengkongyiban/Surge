@@ -2,6 +2,9 @@
 #!name=限行查询
 #!desc=车辆限行信息
 
+#city缩写可前往 http://m.xy.bendibao.com/news/xianxingchaxun/city.php 查看
+
+
 [Panel]
 
 车辆限行Panel = script-name=xianxing, update-interval=3600
@@ -31,15 +34,17 @@ if (typeof $argument !== 'undefined' && $argument !== '') {
 
 let url = `http://m.${city}.bendibao.com/news/xianxingchaxun/index.php?category=${cartype}`;
 
+url = city == 'sz' ? 'http://m.bendibao.com/news/xianxingchaxun/' : url;
+
 !(async () => {
 	
 let xxd = (await $.http.get(url))['body'];
 
 const cityCN = xxd.match(/<title>.+?<\/title>/)[0].split(/<title>/)[1].split('限行规定')[0];
 
-const localxxd = xxd.split('<div class="content" style="display: none;">')[0];
+const localxxd = /<div class="content" style="display: none;">/.test(xxd) ? xxd.split('<div class="content" style="display: none;">')[0] : xxd;
 
-const otherxxd = xxd.split('<div class="content" style="display: none;">')[1];
+const otherxxd = /<div class="content" style="display: none;">/.test(xxd) ?xxd.split('<div class="content" style="display: none;">')[1] : xxd;
 
 xxd = loo == '本地车' ? localxxd : otherxxd;
 
@@ -51,17 +56,17 @@ const reg_xxdate = /<div class="three twenty-eight">限行时间<\/div>[\s\S]*?<
 
 const reg_xxregion = /<div class="three twenty-eight">限行区域<\/div>[\s\S]+<div class="limit-rule xianxing-content">/;
 
-let xxtodaydate = xxd.match(reg_xxtoday)[1];
+let xxtodaydate = reg_xxtoday.test(xxd) ? xxd.match(reg_xxtoday)[1] : '';
 
-let xxtomorrowdate = xxd.match(reg_xxtomorrow)[1];
+let xxtomorrowdate = reg_xxtoday.test(xxd) ? xxd.match(reg_xxtomorrow)[1] : '';
 
-let xxtodaynum = xxd.match(reg_xxtoday)[2];
+let xxtodaynum = reg_xxtoday.test(xxd) ? xxd.match(reg_xxtoday)[2] : '不限行或不是按尾号限行';
 
-let xxtomorrownum = xxd.match(reg_xxtomorrow)[2];
+let xxtomorrownum = reg_xxtoday.test(xxd) ? xxd.match(reg_xxtomorrow)[2] : '不限行或不是按尾号限行';
 
-let xxdate = a(xxd.match(reg_xxdate)[0].split(/<\/div>\s*<\/div>[\s\S]+?<div class="cicle-text">/)).join('\n');
+let xxdate = reg_xxdate.test(xxd) ? a(xxd.match(reg_xxdate)[0].split(/<\/div>\s*<\/div>[\s\S]+?<div class="cicle-text">/)).join('\n') : '未获取到限行时间';
 
-let xxregion = displayxxregion == true ? a(xxd.match(reg_xxregion)[0].split(/<\/div>\s*<\/div>[\s\S]+?<div class="cicle-text">/)).join('\n') : '';
+let xxregion = displayxxregion == true && reg_xxregion.test(xxd) ? a(xxd.match(reg_xxregion)[0].split(/<\/div>\s*<\/div>[\s\S]+?<div class="cicle-text">/)).join('\n') : '';
 
 function a (arr) {
 	for (let i=0; i < arr.length; i++) {
@@ -74,18 +79,21 @@ cartype = decodeURIComponent(cartype);
 
 ($.isSurge() || $.isShadowrocket() || $.isStash()) && $script.type == 'cron' && $.msg(`${cityCN}限行信息 ${cartype} ${loo}`,`今日限行: ${xxtodaydate}  ${xxtodaynum}
 明日限行: ${xxtomorrowdate}  ${xxtomorrownum}`,`${xxdate}
-${xxregion}`,{url:url});
+${xxregion}
+详细限行规则请前往本地宝/点击通知查看`,{url:url});
 
 ($.isLoon() || $.isQuanX()) && $.msg(`${cityCN}限行信息 ${cartype} ${loo}`,`今日限行: ${xxtodaydate}  ${xxtodaynum}
 明日限行: ${xxtomorrowdate}  ${xxtomorrownum}`,`${xxdate}
-${xxregion}`,{url:url});
+${xxregion}
+详细限行规则请前往本地宝/点击通知查看`,{url:url});
 
 $.done({
         title: `${cityCN}限行信息 ${cartype} ${loo}`,
 		content: `今日限行: ${xxtodaydate}  ${xxtodaynum}
 明日限行: ${xxtomorrowdate}  ${xxtomorrownum}
 ${xxdate}
-${xxregion}`,
+${xxregion}
+详细限行规则请前往本地宝/点击通知查看`,
 		icon: "car"
 
     });
