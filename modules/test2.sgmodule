@@ -1,5 +1,5 @@
-#!name=555Ad
+#!name=防止tiktok主机名被mitm
+#!desc=如题
 
-[Script]
-
-555Ad = type=http-response, pattern=^https?:\/\/[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+){1,3}(:\d+)?\/api\/v\d\/movie\/index_recommend, script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/555Ad.js, requires-body=true, max-size=-1, timeout=60
+[MITM]
+hostname = %INSERT% -*.tiktokv.com, -*.byteoversea.com, -*.tik-tokapi.com
