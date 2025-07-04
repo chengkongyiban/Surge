@@ -1,5 +1,6 @@
 #!name=自用定时任务
 #!desc=仅自用
+#!category=工具
 
 [Script]
 10010v4-cron = type=cron, cronexp="0 12,23 * * *", script-path=https://github.com/ChinaTelecomOperators/ChinaUnicom/releases/download/Prerelease-Alpha/10010.js, timeout=60
