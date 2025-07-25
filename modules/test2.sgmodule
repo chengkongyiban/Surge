@@ -1,5 +1,6 @@
-#!name=防止tiktok主机名被mitm
-#!desc=如题
+#!name=local
+#!desc=local
 
-[MITM]
-hostname = %INSERT% -*.tiktokv.com, -*.byteoversea.com, -*.tik-tokapi.com
+[Body Rewrite]
+http-response baidu.com regex1 text1 regex2 text2
+http-response-jq ^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\? 'delpaths([["data","payment"]])'
